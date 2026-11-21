@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { IconButton } from '../../../../shared/components/icon-button/icon-button';
 import { Cart } from '../../../cart';
 import { Paginator } from '../../../../shared/components/paginator/paginator';
@@ -19,7 +19,7 @@ import { CATALOG_COPY } from '../../catalog.copy';
     Paginator,
     MatFormFieldModule,
     MatSelectModule,
-    MatRadioModule,
+    MatCheckboxModule,
   ],
   templateUrl: './catalog-page.html',
   styleUrl: './catalog-page.scss',
@@ -36,14 +36,29 @@ export class CatalogPage {
   protected readonly categories = computed(() => [
     ...new Set(this.catalog.products().map((product) => product.category)),
   ]);
-  protected readonly category = computed(() => {
-    const requested = this.query().get('seccion');
-    return requested && this.categories().includes(requested) ? requested : '';
+  protected readonly selectedCategories = computed(() => {
+    const requested = this.query().getAll('seccion');
+    if (!requested.length) return this.categories();
+    if (requested.every((value) => value === '')) return [];
+    const selected = this.categories().filter((category) => requested.includes(category));
+    return selected.length ? selected : this.categories();
   });
+  protected readonly allSelected = computed(
+    () =>
+      this.categories().length > 0 && this.selectedCategories().length === this.categories().length,
+  );
+  protected readonly partiallySelected = computed(
+    () => this.selectedCategories().length > 0 && !this.allSelected(),
+  );
+  protected readonly resultsTitle = computed(() =>
+    this.allSelected()
+      ? CATALOG_COPY.catalog
+      : this.selectedCategories().join(', ') || CATALOG_COPY.noSections,
+  );
   protected readonly filtered = computed(() =>
     this.cart
       .availableProducts()
-      .filter((product) => !this.category() || product.category === this.category()),
+      .filter((product) => this.selectedCategories().includes(product.category)),
   );
   protected readonly sizes = computed(() => {
     const total = this.filtered().length;
@@ -88,10 +103,29 @@ export class CatalogPage {
     this.message.set(this.cart.add(id) ? this.copy.added : this.copy.stockError);
   }
 
-  protected changeCategory(category: string): void {
+  protected changeCategory(category: string, checked: boolean): void {
+    const selected = new Set(this.selectedCategories());
+    if (checked) selected.add(category);
+    else selected.delete(category);
+    this.changeCategories(this.categories().filter((value) => selected.has(value)));
+  }
+
+  protected selectAll(checked: boolean): void {
+    this.changeCategories(checked ? this.categories() : []);
+  }
+
+  private changeCategories(categories: readonly string[]): void {
     void this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { seccion: category || null, pagina: 1 },
+      queryParams: {
+        seccion:
+          categories.length === this.categories().length
+            ? null
+            : categories.length
+              ? categories
+              : '',
+        pagina: 1,
+      },
       queryParamsHandling: 'merge',
     });
   }

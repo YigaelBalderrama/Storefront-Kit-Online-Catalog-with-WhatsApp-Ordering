@@ -14,7 +14,7 @@
       [attr.aria-busy]="catalog.loading()"
     >
       <div class="catalog__heading">
-        <h2 id="products-title">{{ category() || copy.catalog }}</h2>
+        <h2 id="products-title">{{ resultsTitle() }}</h2>
         @if (!catalog.loading() && !catalog.error()) {
           <span>{{ filtered().length }} {{ copy.products }}</span>
         }
@@ -46,7 +46,13 @@
               (addToCart)="add($event)"
             />
           } @empty {
-            <p class="catalog__state" role="status">{{ copy.empty }}</p>
+            <p class="catalog__state" role="status">
+              {{
+                categories().length > 0 && selectedCategories().length === 0
+                  ? copy.noSections
+                  : copy.empty
+              }}
+            </p>
           }
         </div>
         @if (filtered().length > size()) {
@@ -62,17 +68,21 @@
     @if (!catalog.loading() && !catalog.error() && categories().length > 0) {
       <aside class="catalog__sections" aria-labelledby="sections-title">
         <h2 id="sections-title">{{ copy.sections }}</h2>
-        <mat-radio-group
-          class="catalog__categories"
-          aria-labelledby="sections-title"
-          [value]="category()"
-          (change)="changeCategory($event.value)"
-        >
-          <mat-radio-button value="">{{ copy.allSections }}</mat-radio-button>
+        <div class="catalog__categories" role="group" aria-labelledby="sections-title">
+          <mat-checkbox
+            [checked]="allSelected()"
+            [indeterminate]="partiallySelected()"
+            (change)="selectAll($event.checked)"
+            >{{ copy.allSections }}</mat-checkbox
+          >
           @for (section of categories(); track section) {
-            <mat-radio-button [value]="section">{{ section }}</mat-radio-button>
+            <mat-checkbox
+              [checked]="selectedCategories().includes(section)"
+              (change)="changeCategory(section, $event.checked)"
+              >{{ section }}</mat-checkbox
+            >
           }
-        </mat-radio-group>
+        </div>
       </aside>
     }
   </div>

@@ -11,11 +11,12 @@ La cuadrícula se adapta al contenedor sin media queries. El catálogo contempla
 
 El catálogo muestra 3 productos por página por defecto. Las opciones de `catalog.config.ts` se limitan al total de productos, sin duplicados; con seis productos se ofrecen 3 y 6.
 El selector aparece encima de las tarjetas y la navegación inferior solo se muestra cuando hay más de una página.
-La barra superior compartida permanece visible al hacer scroll y ofrece acceso al carrito con un icono Material SVG local y el contador de unidades.
+La barra superior compartida permanece visible al hacer scroll y ofrece acceso al carrito con `mat-icon` y el contador de unidades en su tooltip.
 
-Las acciones usan iconos Material SVG locales con tooltips y etiquetas accesibles. El contador del carrito se consulta en su tooltip y etiqueta accesible.
+Las acciones usan iconos de fuente de Angular Material (`mat-icon`) con tooltips y etiquetas accesibles. La fuente Material Icons se carga desde Google Fonts en `src/index.html` y requiere conexión. No se usan SVG dentro de los botones.
 Las secciones (categorías) se muestran a la derecha del catálogo y pasan debajo cuando el contenedor necesita más espacio. Por defecto se muestran todas.
-El filtro se comparte en `seccion` (por ejemplo, `/catalogo?seccion=Hogar`), vuelve a la primera página al cambiar y ajusta la paginación a los resultados.
+Las casillas permiten seleccionar varias categorías simultáneamente. «Todas las secciones» permite marcarlas o desmarcarlas juntas y muestra un estado intermedio si solo algunas están seleccionadas.
+El filtro se comparte repitiendo `seccion` (por ejemplo, `/catalogo?seccion=Hogar&seccion=Moda`), vuelve a la primera página al cambiar y ajusta la paginación a los resultados. Sin parámetro se muestran todas; `seccion=` conserva una selección vacía.
 La página y el tamaño se comparten en la URL (`/catalogo?pagina=2&cantidad=3`). Los parámetros inválidos usan valores seguros.
 
 ## Carrito

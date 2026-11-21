@@ -47,4 +47,27 @@ describe('App', () => {
       'Todos los productos',
     );
   });
+
+  it('combines categories and supports clearing and selecting all categories', async () => {
+    const harness = await RouterTestingHarness.create('/catalogo?seccion=Hogar&seccion=Moda');
+    await harness.fixture.whenStable();
+    expect(harness.routeNativeElement?.querySelectorAll('app-product-card').length).toBe(3);
+    expect(harness.routeNativeElement?.querySelector('#products-title')?.textContent).toBe(
+      'Hogar, Moda',
+    );
+    const all = harness.routeNativeElement?.querySelector<HTMLInputElement>('mat-checkbox input');
+    expect(all?.indeterminate).toBe(true);
+    all?.click();
+    await harness.fixture.whenStable();
+    expect(harness.routeNativeElement?.querySelector('#products-title')?.textContent).toBe(
+      'Todos los productos',
+    );
+    all?.click();
+    await harness.fixture.whenStable();
+    expect(harness.routeNativeElement?.querySelectorAll('app-product-card').length).toBe(0);
+    expect(harness.routeNativeElement?.textContent).toContain('Selecciona una o más secciones');
+    await harness.navigateByUrl('/catalogo?seccion=');
+    await harness.fixture.whenStable();
+    expect(harness.routeNativeElement?.querySelectorAll('app-product-card').length).toBe(0);
+  });
 });

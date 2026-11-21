@@ -1,4 +1,5 @@
 export const CATALOG_COPY = {
+  noSections: 'Selecciona una o más secciones',
   sections: 'Secciones',
   allSections: 'Todas las secciones',
   pageSize: 'Productos por página',
