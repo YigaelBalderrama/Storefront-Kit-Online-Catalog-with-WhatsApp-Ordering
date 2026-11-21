@@ -1,4 +1,7 @@
 export const CATALOG_COPY = {
+  sections: 'Secciones',
+  allSections: 'Todas las secciones',
+  pageSize: 'Productos por página',
   add: 'Añadir al carrito',
   unavailable: 'Sin stock',
   cart: 'Carrito',

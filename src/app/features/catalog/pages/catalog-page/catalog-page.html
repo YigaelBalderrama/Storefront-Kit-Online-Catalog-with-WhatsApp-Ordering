@@ -1,57 +1,79 @@
 <a class="catalog__skip" [href]="skipLink()">{{ copy.skip }}</a>
-<header class="catalog__header">
-  <a class="catalog__brand" routerLink="/catalogo">{{ copy.brand }}</a>
-  <span class="catalog__demo">{{ copy.demo }}</span>
-  <a mat-stroked-button routerLink="/carrito">{{ copy.cart }} ({{ cart.count() }})</a>
-</header>
 <main class="catalog">
   <section class="catalog__intro" aria-labelledby="catalog-title">
     <p class="catalog__eyebrow">{{ copy.collection }}</p>
     <h1 id="catalog-title">{{ copy.title }}</h1>
     <p class="catalog__description">{{ copy.introduction }}</p>
   </section>
-  <section
-    id="products"
-    tabindex="-1"
-    aria-labelledby="products-title"
-    [attr.aria-busy]="catalog.loading()"
-  >
-    <div class="catalog__heading">
-      <h2 id="products-title">{{ copy.catalog }}</h2>
-      @if (!catalog.loading() && !catalog.error()) {
-        <span>{{ catalog.products().length }} {{ copy.products }}</span>
-      }
-    </div>
-    <p role="status">{{ message() }}</p>
-    @if (catalog.loading()) {
-      <p class="catalog__state" role="status">{{ copy.loading }}</p>
-    } @else if (catalog.error()) {
-      <div class="catalog__state" role="alert">
-        <p>{{ copy.error }}</p>
-        <button mat-flat-button (click)="catalog.retry()">{{ copy.retry }}</button>
-      </div>
-    } @else {
-      <div class="catalog__grid">
-        @for (product of products(); track product.id; let index = $index) {
-          <app-product-card
-            [product]="product"
-            [priority]="index < priorityImageCount"
-            (addToCart)="add($event)"
-          />
-        } @empty {
-          <p class="catalog__state" role="status">{{ copy.empty }}</p>
+  <div class="catalog__layout">
+    <section
+      class="catalog__results"
+      id="products"
+      tabindex="-1"
+      aria-labelledby="products-title"
+      [attr.aria-busy]="catalog.loading()"
+    >
+      <div class="catalog__heading">
+        <h2 id="products-title">{{ category() || copy.catalog }}</h2>
+        @if (!catalog.loading() && !catalog.error()) {
+          <span>{{ filtered().length }} {{ copy.products }}</span>
         }
       </div>
-      @if (catalog.products().length > 0) {
-        <app-paginator
-          [total]="catalog.products().length"
-          [page]="page()"
-          [pageSize]="size()"
-          [pageSizes]="sizes"
-          (pageChanged)="changePage($event)"
-          (sizeChanged)="changePage(1, $event)"
-        />
+      @if (!catalog.loading() && !catalog.error() && filtered().length > 0) {
+        <mat-form-field class="catalog__page-size" subscriptSizing="dynamic">
+          <mat-label>{{ copy.pageSize }}</mat-label>
+          <mat-select [value]="size()" (selectionChange)="changePage(1, $event.value)">
+            @for (option of sizes(); track option) {
+              <mat-option [value]="option">{{ option }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
       }
+      <p role="status">{{ message() }}</p>
+      @if (catalog.loading()) {
+        <p class="catalog__state" role="status">{{ copy.loading }}</p>
+      } @else if (catalog.error()) {
+        <div class="catalog__state" role="alert">
+          <p>{{ copy.error }}</p>
+          <app-icon-button icon="retry" [label]="copy.retry" (activated)="catalog.retry()" />
+        </div>
+      } @else {
+        <div class="catalog__grid">
+          @for (product of products(); track product.id; let index = $index) {
+            <app-product-card
+              [product]="product"
+              [priority]="index < priorityImageCount"
+              (addToCart)="add($event)"
+            />
+          } @empty {
+            <p class="catalog__state" role="status">{{ copy.empty }}</p>
+          }
+        </div>
+        @if (filtered().length > size()) {
+          <app-paginator
+            [total]="filtered().length"
+            [page]="page()"
+            [pageSize]="size()"
+            (pageChanged)="changePage($event)"
+          />
+        }
+      }
+    </section>
+    @if (!catalog.loading() && !catalog.error() && categories().length > 0) {
+      <aside class="catalog__sections" aria-labelledby="sections-title">
+        <h2 id="sections-title">{{ copy.sections }}</h2>
+        <mat-radio-group
+          class="catalog__categories"
+          aria-labelledby="sections-title"
+          [value]="category()"
+          (change)="changeCategory($event.value)"
+        >
+          <mat-radio-button value="">{{ copy.allSections }}</mat-radio-button>
+          @for (section of categories(); track section) {
+            <mat-radio-button [value]="section">{{ section }}</mat-radio-button>
+          }
+        </mat-radio-group>
+      </aside>
     }
-  </section>
+  </div>
 </main>

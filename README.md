@@ -9,7 +9,13 @@ Los precios usan unidades monetarias en bolivianos; moneda y locale se configura
 Los textos de interfaz en español se centralizan en `src/app/features/catalog/catalog.copy.ts`.
 La cuadrícula se adapta al contenedor sin media queries. El catálogo contempla carga, error con reintento y lista vacía.
 
-El catálogo muestra 3 productos por página por defecto y permite elegir 3, 6 o 12; se configura en `catalog.config.ts`.
+El catálogo muestra 3 productos por página por defecto. Las opciones de `catalog.config.ts` se limitan al total de productos, sin duplicados; con seis productos se ofrecen 3 y 6.
+El selector aparece encima de las tarjetas y la navegación inferior solo se muestra cuando hay más de una página.
+La barra superior compartida permanece visible al hacer scroll y ofrece acceso al carrito con un icono Material SVG local y el contador de unidades.
+
+Las acciones usan iconos Material SVG locales con tooltips y etiquetas accesibles. El contador del carrito se consulta en su tooltip y etiqueta accesible.
+Las secciones (categorías) se muestran a la derecha del catálogo y pasan debajo cuando el contenedor necesita más espacio. Por defecto se muestran todas.
+El filtro se comparte en `seccion` (por ejemplo, `/catalogo?seccion=Hogar`), vuelve a la primera página al cambiar y ajusta la paginación a los resultados.
 La página y el tamaño se comparten en la URL (`/catalogo?pagina=2&cantidad=3`). Los parámetros inválidos usan valores seguros.
 
 ## Carrito

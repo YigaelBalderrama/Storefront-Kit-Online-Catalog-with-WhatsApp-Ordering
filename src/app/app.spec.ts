@@ -33,4 +33,18 @@ describe('App', () => {
     expect(harness.routeNativeElement?.textContent).toContain('Agotado');
     expect(harness.routeNativeElement?.textContent).toContain('Página 2 de 2');
   });
+
+  it('filters sections from the URL and handles an unknown section', async () => {
+    const harness = await RouterTestingHarness.create('/catalogo?seccion=Hogar&pagina=9');
+    await harness.fixture.whenStable();
+    expect(harness.routeNativeElement?.querySelectorAll('app-product-card').length).toBe(2);
+    expect(harness.routeNativeElement?.querySelector('#products-title')?.textContent).toBe('Hogar');
+    expect(harness.routeNativeElement?.querySelector('app-paginator')).toBeNull();
+    await harness.navigateByUrl('/catalogo?seccion=unknown');
+    await harness.fixture.whenStable();
+    expect(harness.routeNativeElement?.querySelectorAll('app-product-card').length).toBe(3);
+    expect(harness.routeNativeElement?.querySelector('#products-title')?.textContent).toBe(
+      'Todos los productos',
+    );
+  });
 });

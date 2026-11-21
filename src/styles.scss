@@ -11,7 +11,12 @@ html {
   );
   --content-width: 76rem;
   --product-card-min: 18rem;
+  --catalog-results-min: 36rem;
+  --catalog-sections-min: 14rem;
   --cart-image-size: 8rem;
+  --navigation-layer: 10;
+  --control-min-size: 2.75rem;
+  --navigation-scroll-offset: 8rem;
   --gutter: clamp(1rem, 4%, 3rem);
   --space-sm: 0.5rem;
   --space-md: 1rem;
@@ -35,6 +40,7 @@ html {
   --focus-offset: 0.25rem;
   --elevation: 0 0.25rem 1rem #172b3010;
   color-scheme: light;
+  scroll-padding-block-start: var(--navigation-scroll-offset);
 }
 *,
 *::before,

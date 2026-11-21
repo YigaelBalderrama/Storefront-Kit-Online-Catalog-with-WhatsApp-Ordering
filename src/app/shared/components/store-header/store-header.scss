@@ -1,0 +1,34 @@
+:host {
+  display: block;
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--navigation-layer);
+}
+.store-header {
+  background: var(--surface);
+  border-block-end: var(--border-width) solid var(--border);
+  box-shadow: var(--elevation);
+}
+.store-header__navigation {
+  inline-size: min(100%, var(--content-width));
+  margin-inline: auto;
+  padding: var(--space-sm) var(--gutter);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+.store-header__brand {
+  min-inline-size: 0;
+  color: var(--ink);
+  font-size: var(--font-brand);
+  font-weight: 750;
+  text-decoration: none;
+}
+.store-header__cart {
+  min-inline-size: 0;
+  block-size: auto;
+  min-block-size: var(--control-min-size);
+  padding-block: var(--space-sm);
+}

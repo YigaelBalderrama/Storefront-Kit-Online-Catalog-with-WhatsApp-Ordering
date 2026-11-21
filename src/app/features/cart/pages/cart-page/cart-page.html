@@ -1,7 +1,14 @@
 <main class="cart">
   <header class="cart__header">
     <h1 #heading tabindex="-1">{{ copy.title }} ({{ cart.count() }})</h1>
-    <a mat-stroked-button routerLink="/catalogo" [queryParams]="{ pagina: 1 }">{{ copy.back }}</a>
+    <a
+      mat-icon-button
+      routerLink="/catalogo"
+      [queryParams]="{ pagina: 1 }"
+      [attr.aria-label]="copy.back"
+      [matTooltip]="copy.back"
+      ><app-store-icon name="shop"
+    /></a>
   </header>
   <p class="cart__note">{{ copy.note }}</p>
   <p role="status">{{ message() }}</p>
@@ -10,7 +17,7 @@
   } @else if (cart.error()) {
     <div role="alert">
       <p>{{ copy.error }}</p>
-      <button mat-flat-button (click)="cart.retry()">{{ copy.retry }}</button>
+      <app-icon-button icon="retry" [label]="copy.retry" (activated)="cart.retry()" />
     </div>
   } @else {
     <div class="cart__lines">
@@ -33,29 +40,24 @@
             </p>
             <p>{{ copy.available }} {{ line.available }}</p>
             <div class="cart__actions">
-              <button
-                mat-stroked-button
-                [attr.aria-label]="copy.decrease + ' ' + line.product.name"
-                (click)="decrease(line.product.id)"
-              >
-                −
-              </button>
+              <app-icon-button
+                icon="remove"
+                [label]="copy.decrease + ' ' + line.product.name"
+                (activated)="decrease(line.product.id)"
+              />
               <span>{{ copy.quantity }}: {{ line.quantity }}</span>
-              <button
-                mat-stroked-button
+              <app-icon-button
+                icon="add"
+                [label]="copy.increase + ' ' + line.product.name"
                 [disabled]="line.quantity >= line.product.stock"
-                [attr.aria-label]="copy.increase + ' ' + line.product.name"
-                (click)="increase(line.product.id)"
-              >
-                +
-              </button>
-              <button
-                mat-button
-                [attr.aria-label]="copy.remove + ' ' + line.product.name"
-                (click)="remove(line.product.id)"
-              >
-                {{ copy.remove }}
-              </button>
+                (activated)="increase(line.product.id)"
+              />
+              <app-icon-button
+                icon="delete"
+                [label]="copy.remove + ' ' + line.product.name"
+                [tooltip]="copy.remove"
+                (activated)="remove(line.product.id)"
+              />
             </div>
           </div>
           <p class="cart__subtotal">
@@ -69,13 +71,19 @@
         <section class="cart__empty">
           <h2>{{ copy.empty }}</h2>
           <p>{{ copy.emptyDescription }}</p>
-          <a mat-flat-button routerLink="/catalogo">{{ copy.back }}</a>
+          <a
+            mat-icon-button
+            routerLink="/catalogo"
+            [attr.aria-label]="copy.back"
+            [matTooltip]="copy.back"
+            ><app-store-icon name="shop"
+          /></a>
         </section>
       }
     </div>
     @if (cart.count() > 0) {
       <footer class="cart__summary">
-        <button mat-stroked-button (click)="clear()">{{ copy.clear }}</button>
+        <app-icon-button icon="clear" [label]="copy.clear" (activated)="clear()" />
         <p>
           {{ copy.total }}:
           <strong>{{

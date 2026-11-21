@@ -1,0 +1,12 @@
+<header class="store-header">
+  <nav class="store-header__navigation" [attr.aria-label]="copy.navigation">
+    <a class="store-header__brand" routerLink="/catalogo">{{ copy.brand }}</a>
+    <a
+      mat-icon-button
+      routerLink="/carrito"
+      [attr.aria-label]="copy.cart + ' (' + count() + ')'"
+      [matTooltip]="copy.cart + ' (' + count() + ')'"
+      ><app-store-icon name="cart"
+    /></a>
+  </nav>
+</header>

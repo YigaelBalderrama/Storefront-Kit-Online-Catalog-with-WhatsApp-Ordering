@@ -2,12 +2,23 @@ import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
 import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { StoreIcon } from '../../../../shared/components/store-icon/store-icon';
+import { IconButton } from '../../../../shared/components/icon-button/icon-button';
 import { STORE_CONFIG } from '../../../../core/config/store.config';
 import { Cart } from '../../services/cart';
 import { CART_COPY } from '../../cart.copy';
 @Component({
   selector: 'app-cart-page',
-  imports: [CurrencyPipe, NgOptimizedImage, RouterLink, MatButtonModule],
+  imports: [
+    CurrencyPipe,
+    NgOptimizedImage,
+    RouterLink,
+    MatButtonModule,
+    MatTooltipModule,
+    StoreIcon,
+    IconButton,
+  ],
   templateUrl: './cart-page.html',
   styleUrl: './cart-page.scss',
 })

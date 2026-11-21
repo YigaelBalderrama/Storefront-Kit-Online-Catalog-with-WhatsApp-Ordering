@@ -1,23 +1,17 @@
 <nav class="paginator" [attr.aria-label]="copy.label">
-  <mat-form-field class="paginator__size" subscriptSizing="dynamic">
-    <mat-label>{{ copy.size }}</mat-label>
-    <mat-select [value]="pageSize()" (selectionChange)="sizeChanged.emit($event.value)">
-      @for (size of pageSizes(); track size) {
-        <mat-option [value]="size">{{ size }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
   <div class="paginator__navigation">
-    <button mat-stroked-button [disabled]="page() <= 1" (click)="pageChanged.emit(page() - 1)">
-      {{ copy.previous }}
-    </button>
+    <app-icon-button
+      icon="back"
+      [label]="copy.previous"
+      [disabled]="page() <= 1"
+      (activated)="pageChanged.emit(page() - 1)"
+    />
     <span aria-live="polite">{{ copy.page }} {{ page() }} {{ copy.of }} {{ pages() }}</span>
-    <button
-      mat-stroked-button
+    <app-icon-button
+      icon="next"
+      [label]="copy.next"
       [disabled]="page() >= pages()"
-      (click)="pageChanged.emit(page() + 1)"
-    >
-      {{ copy.next }}
-    </button>
+      (activated)="pageChanged.emit(page() + 1)"
+    />
   </div>
 </nav>

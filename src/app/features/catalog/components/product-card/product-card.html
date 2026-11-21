@@ -26,14 +26,13 @@
           {{ copy.soldOut }}
         }
       </p>
-      <button
-        mat-flat-button
+      <app-icon-button
+        icon="cart"
         [disabled]="product().stock === 0"
-        [attr.aria-label]="copy.add + ' ' + product().name"
-        (click)="addToCart.emit(product().id)"
-      >
-        {{ product().stock > 0 ? copy.add : copy.unavailable }}
-      </button>
+        [label]="(product().stock > 0 ? copy.add : copy.unavailable) + ' ' + product().name"
+        [tooltip]="product().stock > 0 ? copy.add : copy.unavailable"
+        (activated)="addToCart.emit(product().id)"
+      />
     </div>
   </article>
 </mat-card>
