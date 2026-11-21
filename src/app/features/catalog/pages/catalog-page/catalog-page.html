@@ -1,7 +1,8 @@
-<a class="catalog__skip" href="/catalogo#products">{{ copy.skip }}</a>
+<a class="catalog__skip" [href]="skipLink()">{{ copy.skip }}</a>
 <header class="catalog__header">
-  <a class="catalog__brand" href="/catalogo">{{ copy.brand }}</a>
+  <a class="catalog__brand" routerLink="/catalogo">{{ copy.brand }}</a>
   <span class="catalog__demo">{{ copy.demo }}</span>
+  <a mat-stroked-button routerLink="/carrito">{{ copy.cart }} ({{ cart.count() }})</a>
 </header>
 <main class="catalog">
   <section class="catalog__intro" aria-labelledby="catalog-title">
@@ -21,6 +22,7 @@
         <span>{{ catalog.products().length }} {{ copy.products }}</span>
       }
     </div>
+    <p role="status">{{ message() }}</p>
     @if (catalog.loading()) {
       <p class="catalog__state" role="status">{{ copy.loading }}</p>
     } @else if (catalog.error()) {
@@ -30,12 +32,26 @@
       </div>
     } @else {
       <div class="catalog__grid">
-        @for (product of catalog.products(); track product.id; let index = $index) {
-          <app-product-card [product]="product" [priority]="index < priorityImageCount" />
+        @for (product of products(); track product.id; let index = $index) {
+          <app-product-card
+            [product]="product"
+            [priority]="index < priorityImageCount"
+            (addToCart)="add($event)"
+          />
         } @empty {
           <p class="catalog__state" role="status">{{ copy.empty }}</p>
         }
       </div>
+      @if (catalog.products().length > 0) {
+        <app-paginator
+          [total]="catalog.products().length"
+          [page]="page()"
+          [pageSize]="size()"
+          [pageSizes]="sizes"
+          (pageChanged)="changePage($event)"
+          (sizeChanged)="changePage(1, $event)"
+        />
+      }
     }
   </section>
 </main>

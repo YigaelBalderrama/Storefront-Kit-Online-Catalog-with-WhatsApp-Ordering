@@ -7,6 +7,7 @@ import { appConfig } from './app.config';
 
 describe('App', () => {
   beforeEach(async () => {
+    localStorage.clear();
     await TestBed.configureTestingModule({
       imports: [App],
       providers: [...appConfig.providers, provideRouter(routes)],
@@ -25,7 +26,11 @@ describe('App', () => {
     expect(harness.routeNativeElement?.querySelector('h1')?.textContent).toContain(
       'Encuentra tu próximo favorito',
     );
-    expect(harness.routeNativeElement?.querySelectorAll('app-product-card').length).toBe(6);
+    expect(harness.routeNativeElement?.querySelectorAll('app-product-card').length).toBe(3);
+    expect(harness.routeNativeElement?.textContent).toContain('Página 1 de 2');
+    await harness.navigateByUrl('/catalogo?pagina=2&cantidad=3');
+    await harness.fixture.whenStable();
     expect(harness.routeNativeElement?.textContent).toContain('Agotado');
+    expect(harness.routeNativeElement?.textContent).toContain('Página 2 de 2');
   });
 });

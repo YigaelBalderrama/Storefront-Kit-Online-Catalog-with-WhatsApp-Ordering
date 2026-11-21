@@ -1,4 +1,9 @@
 export const CATALOG_COPY = {
+  add: 'Añadir al carrito',
+  unavailable: 'Sin stock',
+  cart: 'Carrito',
+  added: 'Producto añadido al carrito.',
+  stockError: 'No quedan unidades disponibles de este producto.',
   pageTitle: 'Catálogo | Online Store',
   brand: 'Online Store',
   collection: 'NUESTRA COLECCIÓN',
@@ -14,6 +19,7 @@ export const CATALOG_COPY = {
   empty: 'Pronto encontrarás nuevos productos aquí.',
   stock: 'Stock disponible:',
   units: 'unidades',
+  unit: 'unidad',
   soldOut: 'Agotado · Sin stock disponible',
   skip: 'Ir al catálogo',
 } as const;

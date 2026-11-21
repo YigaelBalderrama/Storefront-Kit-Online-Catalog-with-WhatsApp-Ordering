@@ -1,0 +1,89 @@
+<main class="cart">
+  <header class="cart__header">
+    <h1 #heading tabindex="-1">{{ copy.title }} ({{ cart.count() }})</h1>
+    <a mat-stroked-button routerLink="/catalogo" [queryParams]="{ pagina: 1 }">{{ copy.back }}</a>
+  </header>
+  <p class="cart__note">{{ copy.note }}</p>
+  <p role="status">{{ message() }}</p>
+  @if (cart.loading()) {
+    <p role="status">{{ copy.loading }}</p>
+  } @else if (cart.error()) {
+    <div role="alert">
+      <p>{{ copy.error }}</p>
+      <button mat-flat-button (click)="cart.retry()">{{ copy.retry }}</button>
+    </div>
+  } @else {
+    <div class="cart__lines">
+      @for (line of cart.lines(); track line.product.id) {
+        <article class="cart__line">
+          <img
+            class="cart__image"
+            [ngSrc]="line.product.image"
+            [alt]="line.product.name"
+            width="600"
+            height="450"
+          />
+          <div class="cart__details">
+            <h2>{{ line.product.name }}</h2>
+            <p>
+              {{
+                line.product.price
+                  | currency: config.currency : config.currencyLabel : '1.2-2' : config.locale
+              }}
+            </p>
+            <p>{{ copy.available }} {{ line.available }}</p>
+            <div class="cart__actions">
+              <button
+                mat-stroked-button
+                [attr.aria-label]="copy.decrease + ' ' + line.product.name"
+                (click)="decrease(line.product.id)"
+              >
+                −
+              </button>
+              <span>{{ copy.quantity }}: {{ line.quantity }}</span>
+              <button
+                mat-stroked-button
+                [disabled]="line.quantity >= line.product.stock"
+                [attr.aria-label]="copy.increase + ' ' + line.product.name"
+                (click)="increase(line.product.id)"
+              >
+                +
+              </button>
+              <button
+                mat-button
+                [attr.aria-label]="copy.remove + ' ' + line.product.name"
+                (click)="remove(line.product.id)"
+              >
+                {{ copy.remove }}
+              </button>
+            </div>
+          </div>
+          <p class="cart__subtotal">
+            {{ copy.subtotal }}<br />{{
+              line.subtotal
+                | currency: config.currency : config.currencyLabel : '1.2-2' : config.locale
+            }}
+          </p>
+        </article>
+      } @empty {
+        <section class="cart__empty">
+          <h2>{{ copy.empty }}</h2>
+          <p>{{ copy.emptyDescription }}</p>
+          <a mat-flat-button routerLink="/catalogo">{{ copy.back }}</a>
+        </section>
+      }
+    </div>
+    @if (cart.count() > 0) {
+      <footer class="cart__summary">
+        <button mat-stroked-button (click)="clear()">{{ copy.clear }}</button>
+        <p>
+          {{ copy.total }}:
+          <strong>{{
+            cart.total()
+              | currency: config.currency : config.currencyLabel : '1.2-2' : config.locale
+          }}</strong>
+        </p>
+      </footer>
+    }
+  }
+</main>

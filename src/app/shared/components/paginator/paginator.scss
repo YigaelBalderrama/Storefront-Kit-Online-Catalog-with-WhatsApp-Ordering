@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+.paginator,
+.paginator__navigation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+.paginator {
+  justify-content: space-between;
+  padding-block: var(--space-lg);
+}
+.paginator__size {
+  inline-size: min(100%, var(--product-card-min));
+  min-inline-size: 0;
+}
+.paginator__navigation {
+  min-inline-size: 0;
+}

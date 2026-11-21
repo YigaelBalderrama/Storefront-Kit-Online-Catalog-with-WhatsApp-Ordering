@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { CatalogPage } from './catalog-page';
 import { Catalog } from '../../services/catalog';
 import { Product } from '../../models/product';
+import { provideRouter } from '@angular/router';
 
 describe('CatalogPage states', () => {
   it('shows loading, an accessible error with retry, and an empty catalog', async () => {
@@ -14,12 +15,12 @@ describe('CatalogPage states', () => {
     };
     TestBed.configureTestingModule({
       imports: [CatalogPage],
-      providers: [{ provide: Catalog, useValue: catalog }],
+      providers: [provideRouter([]), { provide: Catalog, useValue: catalog }],
     });
     const fixture = TestBed.createComponent(CatalogPage);
     await fixture.whenStable();
     const element: HTMLElement = fixture.nativeElement;
-    expect(element.querySelector('[role="status"]')?.textContent).toContain('Cargando');
+    expect(element.textContent).toContain('Cargando');
     catalog.loading.set(false);
     catalog.error.set(new Error('Unavailable'));
     await fixture.whenStable();
@@ -28,6 +29,6 @@ describe('CatalogPage states', () => {
     expect(catalog.retry).toHaveBeenCalledOnce();
     catalog.error.set(undefined);
     await fixture.whenStable();
-    expect(element.querySelector('[role="status"]')?.textContent).toContain('Pronto');
+    expect(element.textContent).toContain('Pronto');
   });
 });

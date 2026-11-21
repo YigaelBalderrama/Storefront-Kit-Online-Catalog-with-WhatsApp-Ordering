@@ -9,6 +9,17 @@ Los precios usan unidades monetarias en bolivianos; moneda y locale se configura
 Los textos de interfaz en español se centralizan en `src/app/features/catalog/catalog.copy.ts`.
 La cuadrícula se adapta al contenedor sin media queries. El catálogo contempla carga, error con reintento y lista vacía.
 
+El catálogo muestra 3 productos por página por defecto y permite elegir 3, 6 o 12; se configura en `catalog.config.ts`.
+La página y el tamaño se comparten en la URL (`/catalogo?pagina=2&cantidad=3`). Los parámetros inválidos usan valores seguros.
+
+## Carrito
+
+La ruta `/carrito` permite aumentar o reducir cantidades, eliminar productos y vaciar el carrito. El enlace del catálogo muestra el número total de unidades.
+Cada unidad añadida descuenta una unidad de la disponibilidad mostrada. Quitar unidades las devuelve al catálogo; nunca se permite superar el stock.
+Los subtotales y el total se derivan del mismo estado. Los productos agotados no se pueden añadir.
+El carrito se guarda en `localStorage` con la clave `online-store.cart.v1`; solo se restauran cantidades enteras positivas de productos existentes, limitadas al stock actual.
+Si el almacenamiento no está disponible, el carrito funciona durante la sesión. Este es un carrito de demostración local: no reserva inventario en un servidor ni procesa pagos.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.7.
 
 ## Development server

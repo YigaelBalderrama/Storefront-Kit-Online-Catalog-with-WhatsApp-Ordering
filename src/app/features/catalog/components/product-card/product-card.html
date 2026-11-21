@@ -20,11 +20,20 @@
       </p>
       <p class="product-card__stock" [class.product-card__stock--empty]="product().stock === 0">
         @if (product().stock > 0) {
-          {{ copy.stock }} {{ product().stock }} {{ copy.units }}
+          {{ copy.stock }} {{ product().stock }}
+          {{ product().stock === 1 ? copy.unit : copy.units }}
         } @else {
           {{ copy.soldOut }}
         }
       </p>
+      <button
+        mat-flat-button
+        [disabled]="product().stock === 0"
+        [attr.aria-label]="copy.add + ' ' + product().name"
+        (click)="addToCart.emit(product().id)"
+      >
+        {{ product().stock > 0 ? copy.add : copy.unavailable }}
+      </button>
     </div>
   </article>
 </mat-card>
