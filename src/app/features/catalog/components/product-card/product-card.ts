@@ -1,0 +1,18 @@
+import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
+import { Component, input } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { STORE_CONFIG } from '../../../../core/config/store.config';
+import { CATALOG_COPY } from '../../catalog.copy';
+import { Product } from '../../models/product';
+@Component({
+  selector: 'app-product-card',
+  imports: [CurrencyPipe, NgOptimizedImage, MatCardModule],
+  templateUrl: './product-card.html',
+  styleUrl: './product-card.scss',
+})
+export class ProductCard {
+  readonly product = input.required<Product>();
+  readonly priority = input(false);
+  protected readonly config = STORE_CONFIG;
+  protected readonly copy = CATALOG_COPY;
+}

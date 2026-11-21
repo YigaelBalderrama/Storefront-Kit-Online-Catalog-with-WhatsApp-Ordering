@@ -1,0 +1,58 @@
+import { Product } from '../models/product';
+export const PRODUCTS: readonly Product[] = [
+  {
+    id: 'headphones',
+    name: 'Auriculares inalámbricos',
+    description:
+      'Sonido envolvente y almohadillas suaves para disfrutar de tu música con comodidad.',
+    category: 'Tecnología',
+    image: '/images/headphones.svg',
+    price: 289,
+    stock: 12,
+  },
+  {
+    id: 'backpack',
+    name: 'Mochila urbana',
+    description: 'Ligera y versátil, con espacio para llevar tus esenciales a cualquier lugar.',
+    category: 'Accesorios',
+    image: '/images/backpack.svg',
+    price: 195,
+    stock: 8,
+  },
+  {
+    id: 'bottle',
+    name: 'Botella térmica',
+    description: 'Acero inoxidable y un diseño práctico para acompañar tu rutina diaria.',
+    category: 'Estilo de vida',
+    image: '/images/bottle.svg',
+    price: 89,
+    stock: 24,
+  },
+  {
+    id: 'lamp',
+    name: 'Lámpara de escritorio',
+    description: 'Iluminación cálida y un diseño minimalista para tu rincón de lectura o trabajo.',
+    category: 'Hogar',
+    image: '/images/lamp.svg',
+    price: 165,
+    stock: 5,
+  },
+  {
+    id: 'shoes',
+    name: 'Zapatillas esenciales',
+    description: 'Un clásico cómodo y fácil de combinar para seguir tu ritmo todos los días.',
+    category: 'Moda',
+    image: '/images/shoes.svg',
+    price: 320,
+    stock: 0,
+  },
+  {
+    id: 'mug',
+    name: 'Taza de cerámica',
+    description: 'Acabado artesanal y una forma cómoda para disfrutar de tu pausa favorita.',
+    category: 'Hogar',
+    image: '/images/mug.svg',
+    price: 55,
+    stock: 18,
+  },
+];

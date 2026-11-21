@@ -1,1 +1,55 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$cyan-palette,
+      ),
+      typography: Arial,
+      density: 0,
+    )
+  );
+  --content-width: 76rem;
+  --product-card-min: 18rem;
+  --gutter: clamp(1rem, 4%, 3rem);
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 3.5rem;
+  --radius: 1rem;
+  --border-width: 0.0625rem;
+  --tracking: 0.12em;
+  --font-small: 0.875rem;
+  --font-card: 1.125rem;
+  --font-brand: 1.5rem;
+  --font-price: 1.5rem;
+  --ink: #172b30;
+  --muted: #53646a;
+  --accent: #006b64;
+  --stock: #23643c;
+  --surface: #ffffff;
+  --border: #dce4e6;
+  --background: #f6f8f9;
+  --focus-width: 0.1875rem;
+  --focus-offset: 0.25rem;
+  --elevation: 0 0.25rem 1rem #172b3010;
+  color-scheme: light;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--background);
+  overflow-wrap: anywhere;
+}
+:focus-visible {
+  outline: var(--focus-width) solid var(--accent);
+  outline-offset: var(--focus-offset);
+}

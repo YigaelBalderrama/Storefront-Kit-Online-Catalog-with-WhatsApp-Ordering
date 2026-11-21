@@ -1,5 +1,14 @@
 # OnlineStore
 
+## Catálogo
+
+La ruta inicial `/` redirige a `/catalogo`, una ruta de carga diferida con tarjetas de producto.
+Cada tarjeta muestra una ilustración local, nombre, descripción, precio y stock, incluyendo productos agotados.
+Los seis productos son datos de demostración en `src/app/features/catalog/data/products.ts`, aislados detrás del servicio `Catalog`.
+Los precios usan unidades monetarias en bolivianos; moneda y locale se configuran en `src/app/core/config/store.config.ts`.
+Los textos de interfaz en español se centralizan en `src/app/features/catalog/catalog.copy.ts`.
+La cuadrícula se adapta al contenedor sin media queries. El catálogo contempla carga, error con reintento y lista vacía.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.7.
 
 ## Development server

@@ -1,0 +1,30 @@
+<mat-card class="product-card" appearance="outlined">
+  <article class="product-card__article">
+    <img
+      class="product-card__image"
+      [ngSrc]="product().image"
+      [alt]="product().name"
+      width="600"
+      height="450"
+      [priority]="priority()"
+    />
+    <div class="product-card__body">
+      <p class="product-card__category">{{ product().category }}</p>
+      <h3 class="product-card__name">{{ product().name }}</h3>
+      <p class="product-card__description">{{ product().description }}</p>
+      <p class="product-card__price">
+        {{
+          product().price
+            | currency: config.currency : config.currencyLabel : '1.2-2' : config.locale
+        }}
+      </p>
+      <p class="product-card__stock" [class.product-card__stock--empty]="product().stock === 0">
+        @if (product().stock > 0) {
+          {{ copy.stock }} {{ product().stock }} {{ copy.units }}
+        } @else {
+          {{ copy.soldOut }}
+        }
+      </p>
+    </div>
+  </article>
+</mat-card>

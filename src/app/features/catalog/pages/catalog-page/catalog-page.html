@@ -1,0 +1,41 @@
+<a class="catalog__skip" href="/catalogo#products">{{ copy.skip }}</a>
+<header class="catalog__header">
+  <a class="catalog__brand" href="/catalogo">{{ copy.brand }}</a>
+  <span class="catalog__demo">{{ copy.demo }}</span>
+</header>
+<main class="catalog">
+  <section class="catalog__intro" aria-labelledby="catalog-title">
+    <p class="catalog__eyebrow">{{ copy.collection }}</p>
+    <h1 id="catalog-title">{{ copy.title }}</h1>
+    <p class="catalog__description">{{ copy.introduction }}</p>
+  </section>
+  <section
+    id="products"
+    tabindex="-1"
+    aria-labelledby="products-title"
+    [attr.aria-busy]="catalog.loading()"
+  >
+    <div class="catalog__heading">
+      <h2 id="products-title">{{ copy.catalog }}</h2>
+      @if (!catalog.loading() && !catalog.error()) {
+        <span>{{ catalog.products().length }} {{ copy.products }}</span>
+      }
+    </div>
+    @if (catalog.loading()) {
+      <p class="catalog__state" role="status">{{ copy.loading }}</p>
+    } @else if (catalog.error()) {
+      <div class="catalog__state" role="alert">
+        <p>{{ copy.error }}</p>
+        <button mat-flat-button (click)="catalog.retry()">{{ copy.retry }}</button>
+      </div>
+    } @else {
+      <div class="catalog__grid">
+        @for (product of catalog.products(); track product.id; let index = $index) {
+          <app-product-card [product]="product" [priority]="index < priorityImageCount" />
+        } @empty {
+          <p class="catalog__state" role="status">{{ copy.empty }}</p>
+        }
+      </div>
+    }
+  </section>
+</main>

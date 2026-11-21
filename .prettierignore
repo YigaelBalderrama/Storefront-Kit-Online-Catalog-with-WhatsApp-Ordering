@@ -2,6 +2,8 @@ node_modules/
 dist/
 .angular/
 coverage/
+.playwright-cli/
+output/playwright/
 out-tsc/
 package-lock.json
 agents.md

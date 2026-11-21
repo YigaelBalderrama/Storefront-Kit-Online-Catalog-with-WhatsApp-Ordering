@@ -1,10 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
+import { provideRouter } from '@angular/router';
+import { RouterTestingHarness } from '@angular/router/testing';
+import { routes } from './app.routes';
+import { appConfig } from './app.config';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [...appConfig.providers, provideRouter(routes)],
     }).compileComponents();
   });
 
@@ -14,10 +19,13 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', async () => {
-    const fixture = TestBed.createComponent(App);
-    await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, OnlineStore');
+  it('opens the catalog from the initial route', async () => {
+    const harness = await RouterTestingHarness.create('/');
+    await harness.fixture.whenStable();
+    expect(harness.routeNativeElement?.querySelector('h1')?.textContent).toContain(
+      'Encuentra tu próximo favorito',
+    );
+    expect(harness.routeNativeElement?.querySelectorAll('app-product-card').length).toBe(6);
+    expect(harness.routeNativeElement?.textContent).toContain('Agotado');
   });
 });
