@@ -1,0 +1,89 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+.login {
+  display: flex;
+  min-block-size: 100dvh;
+  padding: var(--gutter);
+}
+.login__card {
+  @include mat.card-overrides(
+    (
+      elevated-container-color: var(--surface),
+      elevated-container-shape: var(--radius),
+    )
+  );
+  inline-size: min(100%, var(--auth-content-width));
+  min-inline-size: 0;
+  margin: auto;
+  padding: clamp(var(--space-md), 5%, var(--space-xl));
+  border: var(--border-width) solid var(--border);
+  border-block-start: var(--auth-accent-width) solid var(--accent);
+  box-shadow: var(--elevation);
+  gap: var(--space-lg);
+}
+.login__heading {
+  text-align: center;
+}
+.login__heading h1 {
+  margin-block: var(--space-sm);
+  font-size: clamp(var(--font-brand), 4cqi, var(--auth-heading-size));
+}
+.login__brand {
+  margin: 0;
+  color: var(--accent);
+  font-size: var(--font-small);
+  font-weight: 700;
+  letter-spacing: var(--tracking);
+}
+.login__subtitle {
+  margin: 0;
+  color: var(--muted);
+}
+.login__form,
+.login__field {
+  display: grid;
+  gap: var(--space-sm);
+  min-inline-size: 0;
+}
+.login__form {
+  gap: var(--space-md);
+}
+.login__field input {
+  inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: var(--control-min-size);
+  padding: var(--space-sm);
+  font: inherit;
+  border: var(--border-width) solid var(--muted);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+}
+.login__password {
+  display: flex;
+  align-items: center;
+  min-inline-size: 0;
+  border: var(--border-width) solid var(--muted);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.login__password input {
+  border: 0;
+}
+.login__visibility {
+  flex: none;
+  color: var(--accent);
+}
+.login__errors {
+  color: var(--error);
+}
+.login__errors p {
+  margin: 0;
+}
+.login__submit:disabled {
+  cursor: not-allowed;
+}

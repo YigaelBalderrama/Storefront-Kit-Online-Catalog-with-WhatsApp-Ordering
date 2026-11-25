@@ -2,7 +2,7 @@
 
 ## Catálogo
 
-La ruta inicial `/` redirige a `/catalogo`, una ruta de carga diferida con tarjetas de producto.
+La ruta `/catalogo` es una ruta protegida de carga diferida con tarjetas de producto.
 Cada tarjeta muestra una ilustración local, nombre, descripción, precio y stock, incluyendo productos agotados.
 Los seis productos son datos de demostración en `src/app/features/catalog/data/products.ts`, aislados detrás del servicio `Catalog`.
 Los precios usan unidades monetarias en bolivianos; moneda y locale se configuran en `src/app/core/config/store.config.ts`.
@@ -96,14 +96,36 @@ VS Code recommends the Angular Language Service, ESLint, and Prettier extensions
 
 ## Agent skills
 
-The following skills were installed for the current Codex user in `~/.codex/skills` and become available on the next turn:
+The following skills are installed in this repository under `.agents/skills/` and become available on the next turn:
 
 - [angular-developer](https://github.com/angular/skills/tree/main/angular-developer): official Angular guidance, including unit testing, HTTP testing, routing tests, and end-to-end testing.
 - [angular-material](https://github.com/angular-sanctuary/angular-agent-skills/tree/main/skills/angular-material): Material theming, components, CDK, and component harnesses. Its reference baseline is Angular Material 21; verify APIs against Angular 22 before use.
 - [playwright](https://github.com/openai/skills/tree/main/skills/.curated/playwright): browser automation and interaction testing.
 
-Skills are installed in the user's environment, not as npm dependencies. Repository instructions take precedence over their examples, including typed reactive forms, default Angular 22 change detection, and layouts without media queries.
+Skills are included with the project, not as npm dependencies. Each directory contains its `SKILL.md` and supporting resources. Repository instructions take precedence over their examples, including typed reactive forms, default Angular 22 change detection, and layouts without media queries.
 
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Authentication demo
+
+Run `npm start` and open `/login`. Use `admin@example.com` with password `Admin123!`.
+Every route except `/login` requires a session, including the existing catalog and cart.
+The root and unknown routes redirect to `/dashboard`; `/profile` shows session details.
+Opening a protected URL while signed out preserves its path and query in `returnUrl`.
+Use the visible sign-out button to clear the session. Reloading restores a valid token.
+
+The new authentication pages use Signal Forms, explicit OnPush, and external SCSS as requested for this feature. Existing storefront components keep their conventions.
+The mock uses one fixed demo JWT expiring in 2100 and delays both success and failure responses.
+`AuthService` validates token structure and expiry, clears expired sessions, and tolerates unavailable storage.
+The interceptor sends credentials only to the configured API, excluding login, and signs out on API 401 responses.
+
+Configuration lives in `src/app/core/config/app-config.ts` and is provided from `src/app/app.config.ts`.
+To connect a real backend, set `useMockBackend` to `false` and adjust `apiBaseUrl` there.
+The backend must implement `POST /auth/login` accepting `{ email, password }` and returning `{ accessToken }` with the documented user claims.
+This demo only decodes JWTs; it does not verify signatures or secure server resources. Production authorization must be enforced by the backend. Prefer httpOnly cookies in production, adapting the transport and session restoration accordingly.
+
+Run `npm run check` for formatting, lint, unit tests, and the production build.
+
+The login uses a centered Material card with a brand accent. The password visibility button supports keyboard access and an accessible label. Disabled login buttons show a not-allowed cursor. Authentication component styles use SCSS.

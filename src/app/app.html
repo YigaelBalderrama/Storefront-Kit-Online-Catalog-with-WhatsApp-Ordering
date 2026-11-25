@@ -1,2 +1,10 @@
-<app-store-header [count]="cart.count()" />
+@if (auth.isAuthenticated()) {
+  <app-store-header [count]="cart.count()" />
+  <nav class="account-actions account-navigation" [attr.aria-label]="copy.navigation">
+    <a routerLink="/dashboard">{{ copy.dashboard }}</a><a routerLink="/profile">{{
+      copy.profile
+    }}</a
+    ><button class="account-button" type="button" (click)="auth.logout()">{{ copy.logout }}</button>
+  </nav>
+}
 <router-outlet />

@@ -1,0 +1,75 @@
+<main class="login">
+  <mat-card class="login__card" aria-labelledby="login-title">
+    <div class="login__heading">
+      <p class="login__brand">{{ copy.brand }}</p>
+      <h1 id="login-title">{{ copy.login }}</h1>
+      <p class="login__subtitle">{{ copy.demo }}</p>
+    </div>
+    <form
+      class="login__form"
+      novalidate
+      (submit)="onSubmit($event)"
+      [attr.aria-busy]="loginForm().submitting()"
+    >
+      <div class="login__field">
+        <label for="email">{{ copy.email }}</label>
+        <input
+          id="email"
+          type="email"
+          autocomplete="username"
+          [formField]="loginForm.email"
+          [attr.aria-invalid]="loginForm.email().touched() && loginForm.email().invalid()"
+          aria-describedby="email-errors"
+        />
+        <div id="email-errors" class="login__errors" aria-live="polite">
+          @if (loginForm.email().touched()) {
+            @for (error of loginForm.email().errors(); track error.kind) {
+              <p>{{ error.message }}</p>
+            }
+          }
+        </div>
+      </div>
+      <div class="login__field">
+        <label for="password">{{ copy.password }}</label>
+        <div class="login__password">
+          <input
+            id="password"
+            [type]="passwordVisible() ? 'text' : 'password'"
+            autocomplete="current-password"
+            [formField]="loginForm.password"
+            [attr.aria-invalid]="loginForm.password().touched() && loginForm.password().invalid()"
+            aria-describedby="password-errors"
+          />
+          <button
+            mat-icon-button
+            class="login__visibility"
+            type="button"
+            (click)="passwordVisible.set(!passwordVisible())"
+            [attr.aria-label]="passwordVisible() ? copy.hidePassword : copy.showPassword"
+            [matTooltip]="passwordVisible() ? copy.hidePassword : copy.showPassword"
+            aria-controls="password"
+          >
+            <mat-icon>{{ passwordVisible() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </div>
+        <div id="password-errors" class="login__errors" aria-live="polite">
+          @if (loginForm.password().touched()) {
+            @for (error of loginForm.password().errors(); track error.kind) {
+              <p>{{ error.message }}</p>
+            }
+          }
+        </div>
+      </div>
+      @if (error()) {
+        <p class="login__errors" role="alert">{{ error() }}</p>
+      }
+      <button
+        class="account-button login__submit"
+        type="submit"
+        [disabled]="loginForm().invalid() || loginForm().submitting()"
+      >
+        {{ loginForm().submitting() ? copy.loading : copy.login }}
+      </button>
+    </form>
+  </mat-card>
+</main>

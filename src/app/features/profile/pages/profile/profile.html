@@ -1,0 +1,14 @@
+<main class="account-page">
+  <h1>{{ copy.profile }}</h1>
+  <p>{{ copy.profileDescription }}</p>
+  @if (auth.user(); as user) {
+    <p>{{ user.name }}</p>
+    <p>{{ user.email }}</p>
+  }
+  <div class="account-actions">
+    <a routerLink="/catalogo">{{ copy.catalog }}</a><a routerLink="/dashboard">{{
+      copy.dashboard
+    }}</a
+    ><button class="account-button" type="button" (click)="auth.logout()">{{ copy.logout }}</button>
+  </div>
+</main>

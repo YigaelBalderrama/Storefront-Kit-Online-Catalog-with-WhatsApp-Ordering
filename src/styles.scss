@@ -9,6 +9,10 @@ html {
       density: 0,
     )
   );
+  --auth-content-width: 32rem;
+  --auth-accent-width: 0.25rem;
+  --auth-heading-size: 2rem;
+  --error: #a51b1b;
   --content-width: 76rem;
   --product-card-min: 18rem;
   --catalog-results-min: 36rem;
@@ -59,4 +63,41 @@ body {
 :focus-visible {
   outline: var(--focus-width) solid var(--accent);
   outline-offset: var(--focus-offset);
+}
+
+.account-page,
+.account-navigation {
+  inline-size: min(100%, var(--content-width));
+  margin-inline: auto;
+  padding: var(--space-lg) var(--gutter);
+}
+.account-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+.account-actions > * {
+  min-inline-size: 0;
+}
+.account-actions a {
+  color: var(--accent);
+}
+.account-button {
+  min-block-size: var(--control-min-size);
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width) solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--surface);
+  font: inherit;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.account-button:disabled {
+  background: var(--border);
+  color: var(--muted);
+  border-color: var(--border);
+  cursor: default;
 }
