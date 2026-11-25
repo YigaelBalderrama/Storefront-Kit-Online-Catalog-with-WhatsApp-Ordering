@@ -1,6 +1,8 @@
 export const CATALOG_COPY = {
   noSections: 'Selecciona una o más secciones',
   sections: 'Secciones',
+  collapseSections: 'Ocultar secciones',
+  expandSections: 'Mostrar secciones',
   allSections: 'Todas las secciones',
   pageSize: 'Productos por página',
   add: 'Añadir al carrito',

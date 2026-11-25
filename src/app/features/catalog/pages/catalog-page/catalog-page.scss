@@ -1,23 +1,23 @@
 :host {
   display: block;
+  --catalog-sidebar-width: 250px;
 }
-.catalog__layout {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: var(--space-lg);
+.catalog__shell {
+  block-size: 100dvh;
+  background: var(--background);
 }
-.catalog__results {
-  flex: 3 1 var(--catalog-results-min);
+.catalog__sidenav {
+  inline-size: var(--catalog-sidebar-width);
+  overflow-y: auto;
+  background: var(--surface);
+  border-inline-end: var(--border-width) solid var(--border);
+}
+.catalog__content {
   min-inline-size: 0;
+  background: var(--background);
 }
 .catalog__sections {
-  flex: 1 1 var(--catalog-sections-min);
-  min-inline-size: 0;
-  background: var(--surface);
   padding: var(--space-md);
-  border-radius: var(--radius);
-  border: var(--border-width) solid var(--border);
 }
 .catalog__sections h2 {
   font-size: var(--font-card);
@@ -26,7 +26,17 @@
 .catalog__categories {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  padding: 0;
+}
+.catalog__categories mat-list-item {
+  min-block-size: var(--control-min-size);
+  block-size: auto;
+}
+.catalog__toolbar {
+  inline-size: min(100%, var(--content-width));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  padding-block-start: var(--space-sm);
 }
 .catalog {
   inline-size: min(100%, var(--content-width));
