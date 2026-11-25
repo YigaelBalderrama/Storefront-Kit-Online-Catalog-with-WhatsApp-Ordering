@@ -1,18 +1,21 @@
 :host {
   display: block;
+  flex: 1 1 auto;
+  min-block-size: 0;
   --catalog-sidebar-width: 250px;
 }
 .catalog__shell {
-  block-size: 100dvh;
+  block-size: 100%;
+  min-block-size: 0;
   background: var(--background);
 }
 .catalog__sidenav {
   inline-size: var(--catalog-sidebar-width);
-  overflow-y: auto;
   background: var(--surface);
   border-inline-end: var(--border-width) solid var(--border);
 }
 .catalog__content {
+  position: relative;
   min-inline-size: 0;
   background: var(--background);
 }
@@ -31,12 +34,6 @@
 .catalog__categories mat-list-item {
   min-block-size: var(--control-min-size);
   block-size: auto;
-}
-.catalog__toolbar {
-  inline-size: min(100%, var(--content-width));
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-  padding-block-start: var(--space-sm);
 }
 .catalog {
   inline-size: min(100%, var(--content-width));
@@ -99,14 +96,13 @@ h1 {
   border-radius: var(--radius);
 }
 .catalog__skip {
-  position: fixed;
+  position: absolute;
   inset-inline-start: var(--gutter);
   inset-block-start: var(--space-sm);
   padding: var(--space-sm);
   background: var(--surface);
   color: var(--accent);
   transform: translateY(-200%);
-  z-index: calc(var(--navigation-layer) + 1);
 }
 .catalog__skip:focus {
   transform: translateY(0);

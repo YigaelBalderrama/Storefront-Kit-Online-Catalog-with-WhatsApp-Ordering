@@ -6,8 +6,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { IconButton } from '../../../../shared/components/icon-button/icon-button';
 import { Cart } from '../../../cart';
 import { Paginator } from '../../../../shared/components/paginator/paginator';
@@ -26,8 +24,6 @@ import { CATALOG_COPY } from '../../catalog.copy';
     MatCheckboxModule,
     MatSidenavModule,
     MatListModule,
-    MatButtonModule,
-    MatIconModule,
   ],
   templateUrl: './catalog-page.html',
   styleUrl: './catalog-page.scss',
@@ -98,11 +94,6 @@ export class CatalogPage {
     );
   });
   protected readonly copy = CATALOG_COPY;
-  protected readonly sectionsOpen = signal(true);
-
-  protected toggleSections(): void {
-    this.sectionsOpen.update((open) => !open);
-  }
 
   protected changePage(page: number, size: number = this.size()): void {
     void this.router.navigate([], {

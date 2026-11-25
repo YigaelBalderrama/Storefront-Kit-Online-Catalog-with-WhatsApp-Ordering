@@ -1,14 +1,15 @@
 <mat-sidenav-container class="catalog__shell">
-  @if (!catalog.loading() && !catalog.error() && categories().length > 0) {
-    <mat-sidenav
-      class="catalog__sidenav"
-      mode="side"
-      [opened]="sectionsOpen()"
-      id="catalog-sections"
-      aria-labelledby="sections-title"
-    >
-      <section class="catalog__sections">
-        <h2 id="sections-title">{{ copy.sections }}</h2>
+  <mat-sidenav
+    class="catalog__sidenav"
+    mode="side"
+    [opened]="true"
+    [disableClose]="true"
+    id="catalog-sections"
+    aria-labelledby="sections-title"
+  >
+    <section class="catalog__sections">
+      <h2 id="sections-title">{{ copy.sections }}</h2>
+      @if (!catalog.loading() && !catalog.error() && categories().length > 0) {
         <mat-list class="catalog__categories" role="group" aria-labelledby="sections-title">
           <mat-list-item>
             <mat-checkbox
@@ -28,27 +29,11 @@
             </mat-list-item>
           }
         </mat-list>
-      </section>
-    </mat-sidenav>
-  }
+      }
+    </section>
+  </mat-sidenav>
   <mat-sidenav-content class="catalog__content">
     <a class="catalog__skip" [href]="skipLink()">{{ copy.skip }}</a>
-    @if (!catalog.loading() && !catalog.error() && categories().length > 0) {
-      <div class="catalog__toolbar">
-        <button
-          type="button"
-          mat-icon-button
-          [attr.aria-label]="sectionsOpen() ? copy.collapseSections : copy.expandSections"
-          [attr.aria-expanded]="sectionsOpen()"
-          aria-controls="catalog-sections"
-          (click)="toggleSections()"
-        >
-          <mat-icon aria-hidden="true">{{
-            sectionsOpen() ? 'chevron_left' : 'chevron_right'
-          }}</mat-icon>
-        </button>
-      </div>
-    }
     <main class="catalog">
       <section class="catalog__intro" aria-labelledby="catalog-title">
         <p class="catalog__eyebrow">{{ copy.collection }}</p>

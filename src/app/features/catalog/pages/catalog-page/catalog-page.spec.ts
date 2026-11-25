@@ -2,6 +2,8 @@ import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { registerLocaleData } from '@angular/common';
 import localeEsBo from '@angular/common/locales/es-BO';
+import { By } from '@angular/platform-browser';
+import { MatSidenav } from '@angular/material/sidenav';
 import { CatalogPage } from './catalog-page';
 import { Catalog } from '../../services/catalog';
 import { Product } from '../../models/product';
@@ -65,6 +67,7 @@ describe('CatalogPage states', () => {
     const fixture = TestBed.createComponent(CatalogPage);
     await fixture.whenStable();
     const element: HTMLElement = fixture.nativeElement;
+    expect(element.querySelector('mat-sidenav')).not.toBeNull();
     expect(element.textContent).toContain('Cargando');
     catalog.loading.set(false);
     catalog.error.set(new Error('Unavailable'));
@@ -79,22 +82,16 @@ describe('CatalogPage states', () => {
 });
 
 describe('CatalogPage sections sidenav', () => {
-  it('renders the section checkboxes in the open sidenav and collapses it', async () => {
+  it('keeps the sidenav open and prevents it from closing', async () => {
     const { fixture } = await createCatalogPage();
     const element: HTMLElement = fixture.nativeElement;
-    const sidenav = element.querySelector('mat-sidenav');
-    const toggle = element.querySelector<HTMLButtonElement>('[mat-icon-button]');
+    const sidenavDebugElement = fixture.debugElement.query(By.directive(MatSidenav));
+    const sidenav = sidenavDebugElement.componentInstance as MatSidenav;
 
-    expect(sidenav).not.toBeNull();
-    expect(sidenav?.classList.contains('mat-drawer-opened')).toBe(true);
+    expect(sidenav.opened).toBe(true);
+    expect(sidenav.disableClose).toBe(true);
     expect(element.querySelectorAll('mat-checkbox')).toHaveLength(3);
-    expect(toggle?.getAttribute('aria-expanded')).toBe('true');
-
-    toggle?.click();
-    fixture.detectChanges();
-
-    expect(toggle?.getAttribute('aria-expanded')).toBe('false');
-    expect(sidenav?.classList.contains('mat-drawer-opened')).toBe(false);
+    expect(element.querySelector('.catalog__toolbar')).toBeNull();
     fixture.destroy();
   });
 

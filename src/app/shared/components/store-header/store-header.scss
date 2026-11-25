@@ -1,8 +1,5 @@
 :host {
   display: block;
-  position: sticky;
-  inset-block-start: 0;
-  z-index: var(--navigation-layer);
 }
 .store-header {
   background: var(--surface);
