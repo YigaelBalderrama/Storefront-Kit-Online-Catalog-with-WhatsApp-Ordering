@@ -34,3 +34,8 @@
   min-inline-size: 0;
   margin-inline-start: auto;
 }
+.store-header__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

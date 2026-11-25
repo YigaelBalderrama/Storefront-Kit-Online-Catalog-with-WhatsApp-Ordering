@@ -7,8 +7,8 @@
       [queryParams]="{ pagina: 1 }"
       [attr.aria-label]="copy.back"
       [matTooltip]="copy.back"
-      ><app-store-icon name="shop"
-    /></a>
+      ><mat-icon>storefront</mat-icon></a
+    >
   </header>
   <p class="cart__note">{{ copy.note }}</p>
   <p role="status">{{ message() }}</p>
@@ -76,8 +76,8 @@
             routerLink="/catalogo"
             [attr.aria-label]="copy.back"
             [matTooltip]="copy.back"
-            ><app-store-icon name="shop"
-          /></a>
+            ><mat-icon>storefront</mat-icon></a
+          >
         </section>
       }
     </div>

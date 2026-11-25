@@ -4,13 +4,15 @@
     <div class="store-header__actions">
       <a
         mat-icon-button
+        class="store-header__action"
         routerLink="/carrito"
         [attr.aria-label]="copy.cart + ' (' + count() + ')'"
         [matTooltip]="copy.cart + ' (' + count() + ')'"
-        ><app-store-icon name="cart"
-      /></a>
+        ><mat-icon>shopping_cart</mat-icon></a
+      >
       <button
         mat-icon-button
+        class="store-header__action"
         type="button"
         [matMenuTriggerFor]="accountMenu"
         [attr.aria-label]="copy.account"
