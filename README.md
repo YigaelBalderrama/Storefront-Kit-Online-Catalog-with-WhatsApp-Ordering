@@ -114,7 +114,7 @@ Run `npm start` and open `/login`. Use `admin@example.com` with password `Admin1
 Every route except `/login` requires a session, including the existing catalog and cart.
 The root and unknown routes redirect to `/catalogo`; `/profile` shows session details. Login without a return URL also opens the catalog.
 Opening a protected URL while signed out preserves its path and query in `returnUrl`.
-Open the account icon to the right of the cart for the dropdown menu. Both account and profile entries open `/profile`; sign out clears the session. Reloading restores a valid token.
+Open the account icon to the right of the cart for the dropdown menu. The account entry opens `/profile`; sign out clears the session. Reloading restores a valid token.
 
 The new authentication pages use Signal Forms, explicit OnPush, and external SCSS as requested for this feature. Existing storefront components keep their conventions.
 The mock uses one fixed demo JWT expiring in 2100 and delays both success and failure responses.
