@@ -11,12 +11,7 @@ export const routes: Routes = [
     path: '',
     canActivateChild: [authGuard],
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
-      {
-        path: 'dashboard',
-        loadComponent: () =>
-          import('./features/dashboard/pages/dashboard/dashboard').then((m) => m.Dashboard),
-      },
+      { path: '', pathMatch: 'full', redirectTo: 'catalogo' },
       {
         path: 'profile',
         loadComponent: () =>
@@ -31,7 +26,7 @@ export const routes: Routes = [
         path: 'carrito',
         loadChildren: () => import('./features/cart/cart.routes').then((m) => m.cartRoutes),
       },
-      { path: '**', redirectTo: 'dashboard' },
+      { path: '**', redirectTo: 'catalogo' },
     ],
   },
 ];

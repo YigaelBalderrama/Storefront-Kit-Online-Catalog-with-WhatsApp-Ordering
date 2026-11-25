@@ -149,9 +149,7 @@ describe('guards', () => {
     const route = new ActivatedRouteSnapshot();
     const state = { url: '/profile' } as RouterStateSnapshot;
     expect(TestBed.runInInjectionContext(() => authGuard(route, state))).toBe(true);
-    expect(String(TestBed.runInInjectionContext(() => guestGuard(route, state)))).toBe(
-      '/dashboard',
-    );
+    expect(String(TestBed.runInInjectionContext(() => guestGuard(route, state)))).toBe('/catalogo');
   });
 });
 describe('authInterceptor', () => {

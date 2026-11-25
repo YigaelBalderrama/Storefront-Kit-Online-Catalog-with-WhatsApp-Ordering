@@ -12,12 +12,8 @@ export const AUTH_COPY = {
   loading: 'Iniciando sesión…',
   invalidCredentials: 'El correo o la contraseña son incorrectos.',
   unavailable: 'No se pudo iniciar sesión. Inténtalo de nuevo.',
-  dashboard: 'Mi cuenta',
   profile: 'Perfil',
   catalog: 'Catálogo',
-  logout: 'Cerrar sesión',
-  navigation: 'Navegación de la cuenta',
-  welcome: 'Bienvenido a tu cuenta',
   profileDescription: 'Estos son los datos de tu sesión de demostración.',
   demo: 'Acceso de demostración',
 } as const;

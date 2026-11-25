@@ -97,6 +97,6 @@ describe('Login', () => {
     http.expectOne('/test/auth/login').flush({ accessToken: MOCK_ACCESS_TOKEN });
     await new Promise((resolve) => setTimeout(resolve, 0));
     await fixture.whenStable();
-    expect(navigate).toHaveBeenCalledWith('/dashboard');
+    expect(navigate).toHaveBeenCalledWith('/catalogo');
   });
 });

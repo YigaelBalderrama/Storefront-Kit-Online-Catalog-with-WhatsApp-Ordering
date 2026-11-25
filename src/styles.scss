@@ -65,8 +65,7 @@ body {
   outline-offset: var(--focus-offset);
 }
 
-.account-page,
-.account-navigation {
+.account-page {
   inline-size: min(100%, var(--content-width));
   margin-inline: auto;
   padding: var(--space-lg) var(--gutter);

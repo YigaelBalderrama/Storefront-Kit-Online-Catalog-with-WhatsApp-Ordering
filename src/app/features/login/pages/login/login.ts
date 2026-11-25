@@ -44,7 +44,7 @@ export class Login {
           !returnUrl.startsWith('//') &&
           !returnUrl.includes('\\') &&
           !/^\/login(?:[/?#;]|$)/.test(returnUrl);
-        await this.router.navigateByUrl(safe && returnUrl ? returnUrl : '/dashboard');
+        await this.router.navigateByUrl(safe && returnUrl ? returnUrl : '/catalogo');
       } catch (error: unknown) {
         this.error.set(
           error instanceof HttpErrorResponse && error.status === 401
