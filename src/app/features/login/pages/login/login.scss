@@ -74,6 +74,13 @@
 .login__password input {
   border: 0;
 }
+.login__password:focus-within {
+  outline: var(--focus-width) solid var(--accent);
+  outline-offset: var(--focus-offset);
+}
+.login__password input:focus-visible {
+  outline: none;
+}
 .login__visibility {
   flex: none;
   color: var(--accent);
