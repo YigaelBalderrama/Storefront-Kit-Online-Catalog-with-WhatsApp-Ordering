@@ -1,0 +1,24 @@
+<aside class="sidebar" aria-labelledby="sidebar-heading">
+  <h2 class="sidebar__heading" id="sidebar-heading">{{ heading() }}</h2>
+  @if (showSections()) {
+    <ul class="sidebar__list" [attr.aria-label]="heading()">
+      <li class="sidebar__item">
+        <mat-checkbox
+          [checked]="allSelected()"
+          [indeterminate]="partiallySelected()"
+          (change)="changeAllSections($event.checked)"
+          >{{ allSectionsLabel() }}</mat-checkbox
+        >
+      </li>
+      @for (section of sections(); track section) {
+        <li class="sidebar__item">
+          <mat-checkbox
+            [checked]="selectedSections().includes(section)"
+            (change)="changeSection(section, $event.checked)"
+            >{{ section }}</mat-checkbox
+          >
+        </li>
+      }
+    </ul>
+  }
+</aside>

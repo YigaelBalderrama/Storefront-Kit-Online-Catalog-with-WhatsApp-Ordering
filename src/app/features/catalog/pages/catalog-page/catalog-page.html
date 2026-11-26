@@ -5,32 +5,18 @@
     [opened]="true"
     [disableClose]="true"
     id="catalog-sections"
-    aria-labelledby="sections-title"
+    [attr.aria-label]="copy.sections"
   >
-    <section class="catalog__sections">
-      <h2 id="sections-title">{{ copy.sections }}</h2>
-      @if (!catalog.loading() && !catalog.error() && categories().length > 0) {
-        <mat-list class="catalog__categories" role="group" aria-labelledby="sections-title">
-          <mat-list-item>
-            <mat-checkbox
-              [checked]="allSelected()"
-              [indeterminate]="partiallySelected()"
-              (change)="selectAll($event.checked)"
-              >{{ copy.allSections }}</mat-checkbox
-            >
-          </mat-list-item>
-          @for (section of categories(); track section) {
-            <mat-list-item>
-              <mat-checkbox
-                [checked]="selectedCategories().includes(section)"
-                (change)="changeCategory(section, $event.checked)"
-                >{{ section }}</mat-checkbox
-              >
-            </mat-list-item>
-          }
-        </mat-list>
-      }
-    </section>
+    <app-sidebar
+      [heading]="copy.sections"
+      [allSectionsLabel]="copy.allSections"
+      [sections]="categories()"
+      [selectedSections]="selectedCategories()"
+      [allSelected]="allSelected()"
+      [showSections]="!catalog.loading() && !catalog.error() && categories().length > 0"
+      (sectionChange)="changeCategory($event.section, $event.checked)"
+      (allSectionsChange)="selectAll($event)"
+    />
   </mat-sidenav>
   <mat-sidenav-content class="catalog__content">
     <a class="catalog__skip" [href]="skipLink()">{{ copy.skip }}</a>
@@ -47,12 +33,12 @@
         aria-labelledby="products-title"
         [attr.aria-busy]="catalog.loading()"
       >
-        <div class="catalog__heading">
+        <header class="catalog__heading">
           <h2 id="products-title">{{ resultsTitle() }}</h2>
           @if (!catalog.loading() && !catalog.error()) {
-            <span>{{ filtered().length }} {{ copy.products }}</span>
+            <p class="catalog__count">{{ filtered().length }} {{ copy.products }}</p>
           }
-        </div>
+        </header>
         @if (!catalog.loading() && !catalog.error() && filtered().length > 0) {
           <mat-form-field class="catalog__page-size" subscriptSizing="dynamic">
             <mat-label>{{ copy.pageSize }}</mat-label>
@@ -67,28 +53,32 @@
         @if (catalog.loading()) {
           <p class="catalog__state" role="status">{{ copy.loading }}</p>
         } @else if (catalog.error()) {
-          <div class="catalog__state" role="alert">
-            <p>{{ copy.error }}</p>
+          <section class="catalog__state" role="alert" aria-labelledby="catalog-error-title">
+            <h3 id="catalog-error-title">{{ copy.error }}</h3>
             <app-icon-button icon="retry" [label]="copy.retry" (activated)="catalog.retry()" />
-          </div>
+          </section>
         } @else {
-          <div class="catalog__grid">
+          <ul class="catalog__grid" [attr.aria-label]="copy.products">
             @for (product of products(); track product.id; let index = $index) {
-              <app-product-card
-                [product]="product"
-                [priority]="index < priorityImageCount"
-                (addToCart)="add($event)"
-              />
+              <li>
+                <app-product-card
+                  [product]="product"
+                  [priority]="index < priorityImageCount"
+                  (addToCart)="add($event)"
+                />
+              </li>
             } @empty {
-              <p class="catalog__state" role="status">
-                {{
-                  categories().length > 0 && selectedCategories().length === 0
-                    ? copy.noSections
-                    : copy.empty
-                }}
-              </p>
+              <li>
+                <p class="catalog__state" role="status">
+                  {{
+                    categories().length > 0 && selectedCategories().length === 0
+                      ? copy.noSections
+                      : copy.empty
+                  }}
+                </p>
+              </li>
             }
-          </div>
+          </ul>
           @if (filtered().length > size()) {
             <app-paginator
               [total]="filtered().length"
