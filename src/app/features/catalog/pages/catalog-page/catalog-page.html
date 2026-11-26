@@ -1,4 +1,4 @@
-<mat-sidenav-container class="catalog__shell">
+<mat-sidenav-container class="catalog__shell" [autosize]="true">
   <mat-sidenav
     class="catalog__sidenav"
     mode="side"
@@ -6,8 +6,10 @@
     [disableClose]="true"
     id="catalog-sections"
     [attr.aria-label]="copy.sections"
+    [style.--catalog-sidebar-inline-size]="sidebarInlineSize()"
   >
     <app-sidebar
+      [collapsed]="sidebarCollapsed()"
       [heading]="copy.sections"
       [allSectionsLabel]="copy.allSections"
       [sections]="categories()"
@@ -16,6 +18,7 @@
       [showSections]="!catalog.loading() && !catalog.error() && categories().length > 0"
       (sectionChange)="changeCategory($event.section, $event.checked)"
       (allSectionsChange)="selectAll($event)"
+      (collapsedChange)="changeSidebarCollapsed($event)"
     />
   </mat-sidenav>
   <mat-sidenav-content class="catalog__content">

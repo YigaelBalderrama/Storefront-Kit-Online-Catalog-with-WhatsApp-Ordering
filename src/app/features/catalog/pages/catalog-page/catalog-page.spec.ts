@@ -73,7 +73,7 @@ describe('CatalogPage states', () => {
     catalog.error.set(new Error('Unavailable'));
     await fixture.whenStable();
     expect(element.querySelector('[role="alert"]')?.textContent).toContain('No pudimos');
-    element.querySelector('button')?.click();
+    element.querySelector<HTMLButtonElement>('button[aria-label="Reintentar"]')?.click();
     expect(catalog.retry).toHaveBeenCalledOnce();
     catalog.error.set(undefined);
     await fixture.whenStable();

@@ -12,6 +12,20 @@ import { ProductCard } from '../../components/product-card/product-card';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { Catalog } from '../../services/catalog';
 import { CATALOG_COPY } from '../../catalog.copy';
+
+const SIDEBAR_COLLAPSED_STORAGE_KEY = 'catalog-sidebar-collapsed';
+
+function readSidebarCollapsedState(): boolean {
+  try {
+    return (
+      typeof localStorage !== 'undefined' &&
+      localStorage.getItem(SIDEBAR_COLLAPSED_STORAGE_KEY) === 'true'
+    );
+  } catch {
+    return false;
+  }
+}
+
 @Component({
   selector: 'app-catalog-page',
   imports: [
@@ -80,6 +94,12 @@ export class CatalogPage {
     this.filtered().slice((this.page() - 1) * this.size(), this.page() * this.size()),
   );
   protected readonly message = signal('');
+  protected readonly sidebarCollapsed = signal(readSidebarCollapsedState());
+  protected readonly sidebarInlineSize = computed(() =>
+    this.sidebarCollapsed()
+      ? 'var(--catalog-sidebar-collapsed-width)'
+      : 'var(--catalog-sidebar-width)',
+  );
   protected readonly skipLink = computed(() => {
     const queryParams = Object.fromEntries(
       this.query().keys.map((key) => [key, this.query().getAll(key)]),
@@ -111,6 +131,17 @@ export class CatalogPage {
 
   protected selectAll(checked: boolean): void {
     this.changeCategories(checked ? this.categories() : []);
+  }
+
+  protected changeSidebarCollapsed(collapsed: boolean): void {
+    this.sidebarCollapsed.set(collapsed);
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, String(collapsed));
+      }
+    } catch {
+      return;
+    }
   }
 
   private changeCategories(categories: readonly string[]): void {

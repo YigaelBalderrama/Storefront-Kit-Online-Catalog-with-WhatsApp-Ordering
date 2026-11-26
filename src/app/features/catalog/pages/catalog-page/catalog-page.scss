@@ -3,6 +3,8 @@
   flex: 1 1 auto;
   min-block-size: 0;
   --catalog-sidebar-width: 250px;
+  --catalog-sidebar-collapsed-width: 4.5rem;
+  --catalog-sidebar-transition-duration: 400ms;
 }
 .catalog__shell {
   block-size: 100%;
@@ -10,7 +12,11 @@
   background: var(--background);
 }
 .catalog__sidenav {
-  inline-size: var(--catalog-sidebar-width);
+  inline-size: var(--catalog-sidebar-inline-size, var(--catalog-sidebar-width));
+  block-size: 100%;
+  inset-block-end: 0;
+  transition: inline-size var(--catalog-sidebar-transition-duration)
+    cubic-bezier(0.25, 0.8, 0.25, 1);
   background: var(--surface);
   border-inline-end: var(--border-width) solid var(--border);
 }
@@ -97,4 +103,10 @@ h1 {
 }
 .catalog__skip:focus {
   transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  :host .catalog__sidenav,
+  :host .catalog__content {
+    transition: none;
+  }
 }
