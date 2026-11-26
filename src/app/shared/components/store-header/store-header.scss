@@ -26,9 +26,16 @@
   font-weight: 750;
   text-decoration: none;
 }
-.store-header__cart {
+.store-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
   min-inline-size: 0;
-  block-size: auto;
-  min-block-size: var(--control-min-size);
-  padding-block: var(--space-sm);
+  margin-inline-start: auto;
+}
+.store-header__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }

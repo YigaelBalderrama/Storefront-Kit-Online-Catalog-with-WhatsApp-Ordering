@@ -1,12 +1,33 @@
 <header class="store-header">
   <nav class="store-header__navigation" [attr.aria-label]="copy.navigation">
     <a class="store-header__brand" routerLink="/catalogo">{{ copy.brand }}</a>
-    <a
-      mat-icon-button
-      routerLink="/carrito"
-      [attr.aria-label]="copy.cart + ' (' + count() + ')'"
-      [matTooltip]="copy.cart + ' (' + count() + ')'"
-      ><app-store-icon name="cart"
-    /></a>
+    <div class="store-header__actions">
+      <a
+        mat-icon-button
+        class="store-header__action"
+        routerLink="/carrito"
+        [attr.aria-label]="copy.cart + ' (' + count() + ')'"
+        [matTooltip]="copy.cart + ' (' + count() + ')'"
+        ><mat-icon>shopping_cart</mat-icon></a
+      >
+      <button
+        mat-icon-button
+        class="store-header__action"
+        type="button"
+        [matMenuTriggerFor]="accountMenu"
+        [attr.aria-label]="copy.account"
+        [matTooltip]="copy.account"
+      >
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #accountMenu="matMenu" xPosition="before">
+        <a mat-menu-item routerLink="/profile"
+          ><mat-icon>account_circle</mat-icon><span>{{ copy.account }}</span></a
+        >
+        <button mat-menu-item type="button" (click)="logout.emit()">
+          <mat-icon>logout</mat-icon><span>{{ copy.logout }}</span>
+        </button>
+      </mat-menu>
+    </div>
   </nav>
 </header>

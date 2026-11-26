@@ -1,2 +1,4 @@
-<app-store-header [count]="cart.count()" />
+@if (auth.isAuthenticated()) {
+  <app-store-header [count]="cart.count()" (logout)="auth.logout()" />
+}
 <router-outlet />

@@ -1,3 +1,5 @@
+import { AuthService } from './core/auth/auth.service';
+import { provideAppConfig } from './core/config/app-config';
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 import { provideRouter } from '@angular/router';
@@ -10,8 +12,18 @@ describe('App', () => {
     localStorage.clear();
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [...appConfig.providers, provideRouter(routes)],
+      providers: [
+        ...appConfig.providers,
+        provideRouter(routes),
+        provideAppConfig({
+          apiBaseUrl: '/api',
+          useMockBackend: true,
+          mockLatencyMs: 0,
+          tokenStorageKey: 'test-token',
+        }),
+      ],
     }).compileComponents();
+    await TestBed.inject(AuthService).login('admin@example.com', 'Admin123!');
   });
 
   it('should create the app', () => {
@@ -20,8 +32,8 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('opens the catalog from the initial route', async () => {
-    const harness = await RouterTestingHarness.create('/');
+  it('opens the protected catalog', async () => {
+    const harness = await RouterTestingHarness.create('/catalogo');
     await harness.fixture.whenStable();
     expect(harness.routeNativeElement?.querySelector('h1')?.textContent).toContain(
       'Encuentra tu próximo favorito',
