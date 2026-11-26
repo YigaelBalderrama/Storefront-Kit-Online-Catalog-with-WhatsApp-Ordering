@@ -1,0 +1,20 @@
+export const AUTH_COPY = {
+  showPassword: 'Mostrar contraseña',
+  hidePassword: 'Ocultar contraseña',
+  brand: 'Online Store',
+  login: 'Iniciar sesión',
+  email: 'Correo electrónico',
+  password: 'Contraseña',
+  emailRequired: 'Introduce tu correo electrónico.',
+  emailInvalid: 'Introduce un correo electrónico válido.',
+  passwordRequired: 'Introduce tu contraseña.',
+  passwordShort: 'La contraseña debe tener al menos 8 caracteres.',
+  loading: 'Iniciando sesión…',
+  invalidCredentials: 'El correo o la contraseña son incorrectos.',
+  unavailable: 'No se pudo iniciar sesión. Inténtalo de nuevo.',
+  profile: 'Perfil',
+  catalog: 'Catálogo',
+  profileDescription: 'Estos son los datos de tu sesión de demostración.',
+  demo: 'Acceso de demostración',
+} as const;
+export const PASSWORD_MIN_LENGTH = 8;

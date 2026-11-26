@@ -7,5 +7,5 @@
   [matTooltip]="tooltip() ?? label()"
   (click)="activate()"
 >
-  <app-store-icon [name]="icon()" />
+  <mat-icon>{{ icons[icon()] }}</mat-icon>
 </button>
