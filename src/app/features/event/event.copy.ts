@@ -1,4 +1,4 @@
 export const EVENT_COPY = {
   pageTitle: 'Eventos',
-  specialTornament: 'Torneo Especial',
+  specialEvent: 'especial',
 } as const;

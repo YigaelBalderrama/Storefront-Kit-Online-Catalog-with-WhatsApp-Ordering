@@ -43,3 +43,7 @@
   color: var(--accent);
   background-color: color-mix(in srgb, var(--accent) 12%, transparent);
 }
+
+.store-header__menu-item--active {
+  color: var(--accent);
+}
