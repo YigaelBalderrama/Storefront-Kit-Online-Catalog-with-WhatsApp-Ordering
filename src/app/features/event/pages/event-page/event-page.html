@@ -1,0 +1,13 @@
+<main class="event-page" aria-label="Eventos">
+  <ul class="event-page__grid" role="list">
+    @for (event of events(); track event.id + event.days + event.image) {
+      <li class="event-page__item" role="listitem">
+        <app-event-card [event]="event" />
+      </li>
+    } @empty {
+      <li class="event-page__empty" role="presentation">
+        <p class="event-page__empty-message" role="status">No hay eventos disponibles</p>
+      </li>
+    }
+  </ul>
+</main>

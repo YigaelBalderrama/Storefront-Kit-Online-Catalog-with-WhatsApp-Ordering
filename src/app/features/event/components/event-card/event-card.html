@@ -1,0 +1,35 @@
+<mat-card class="event-card" appearance="outlined">
+  @if (event().image) {
+    <img
+      class="event-card__image"
+      [src]="event().image"
+      [alt]="'Imagen del evento ' + event().id"
+    />
+  } @else {
+    <div class="event-card__placeholder">
+      <mat-icon class="event-card__placeholder-icon" aria-hidden="true">image</mat-icon>
+    </div>
+  }
+
+  <mat-card-header class="event-card__header">
+    <img
+      mat-card-avatar
+      class="event-card__logo"
+      [src]="event().imageLogo"
+      [alt]="'Logotipo de ' + event().id"
+    />
+    <h2 mat-card-title class="event-card__title">{{ event().id }}</h2>
+    <mat-card-subtitle class="event-card__days">
+      <mat-icon class="event-card__days-icon" aria-hidden="true">event</mat-icon>
+      @if (event().days) {
+        <span>{{ event().days }}</span>
+      } @else {
+        <span>{{ copy.noDate }}</span>
+      }
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="event-card__content">
+    <p class="event-card__description">{{ event().description }}</p>
+  </mat-card-content>
+</mat-card>

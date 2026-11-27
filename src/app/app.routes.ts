@@ -26,6 +26,10 @@ export const routes: Routes = [
         path: 'carrito',
         loadChildren: () => import('./features/cart/cart.routes').then((m) => m.cartRoutes),
       },
+      {
+        path: 'eventos',
+        loadChildren: () => import('./features/event/event.routes').then((m) => m.eventRoutes),
+      },
       { path: '**', redirectTo: 'catalogo' },
     ],
   },

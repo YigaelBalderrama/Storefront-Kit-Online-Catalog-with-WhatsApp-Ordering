@@ -14,6 +14,32 @@
         mat-icon-button
         class="store-header__action"
         type="button"
+        [matMenuTriggerFor]="eventsMenu"
+        [class.store-header__action--active]="eventsRouteActive()"
+        [attr.aria-label]="copy.openEventsMenu"
+        [matTooltip]="copy.event"
+      >
+        <mat-icon>menu_book</mat-icon>
+      </button>
+      <mat-menu #eventsMenu="matMenu">
+        <a
+          mat-menu-item
+          routerLink="/eventos"
+          routerLinkActive="store-header__menu-item--active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ><mat-icon>event</mat-icon><span>{{ copy.event }}</span></a
+        >
+        <a
+          mat-menu-item
+          routerLink="/eventos/especial"
+          routerLinkActive="store-header__menu-item--active"
+          ><mat-icon>star</mat-icon><span>{{ copy.specialEvents }}</span></a
+        >
+      </mat-menu>
+      <button
+        mat-icon-button
+        class="store-header__action"
+        type="button"
         [matMenuTriggerFor]="accountMenu"
         [attr.aria-label]="copy.account"
         [matTooltip]="copy.account"
