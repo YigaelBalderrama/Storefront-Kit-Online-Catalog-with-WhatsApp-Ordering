@@ -10,6 +10,16 @@
         [matTooltip]="copy.cart + ' (' + count() + ')'"
         ><mat-icon>shopping_cart</mat-icon></a
       >
+      <a
+        mat-icon-button
+        class="store-header__action"
+        routerLink="/eventos"
+        routerLinkActive="store-header__action--active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [attr.aria-label]="copy.event"
+        [matTooltip]="copy.event"
+        ><mat-icon>menu_book</mat-icon></a
+      >
       <button
         mat-icon-button
         class="store-header__action"
