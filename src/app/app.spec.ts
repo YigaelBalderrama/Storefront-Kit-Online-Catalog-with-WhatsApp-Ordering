@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { AuthService } from './core/auth/auth.service';
 import { provideAppConfig } from './core/config/app-config';
 import { TestBed } from '@angular/core/testing';
@@ -10,6 +11,7 @@ import { EventCard } from './features/event/components/event-card/event-card';
 import { EVENTS } from './features/event/data/events';
 import { Event as StoreEvent } from './features/event/models/event';
 import { EventPage } from './features/event/pages/event-page/event-page';
+import { EventService } from './features/event/services/event';
 
 describe('App', () => {
   beforeEach(async () => {
@@ -194,11 +196,10 @@ describe('Features / Events', () => {
     });
 
     it('shows the empty state without event cards when its list is empty', async () => {
-      const fixture = TestBed.createComponent(EventPage);
-      Object.defineProperty(fixture.componentInstance, 'events', {
-        configurable: true,
-        value: [] satisfies readonly StoreEvent[],
+      TestBed.overrideProvider(EventService, {
+        useValue: { events: signal<readonly StoreEvent[]>([]).asReadonly() },
       });
+      const fixture = TestBed.createComponent(EventPage);
       await fixture.whenStable();
 
       const element: HTMLElement = fixture.nativeElement;

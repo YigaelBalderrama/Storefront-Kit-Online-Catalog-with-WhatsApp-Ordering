@@ -1,1 +1,15 @@
-<main class="event" aria-label="Eventos especiales"></main>
+<main class="special-event-page" aria-label="Eventos especiales">
+  <ul class="special-event-page__grid" role="list">
+    @for (event of specialEvents(); track event.id) {
+      <li class="special-event-page__item" role="listitem">
+        <app-event-card [event]="event" />
+      </li>
+    } @empty {
+      <li class="special-event-page__empty" role="presentation">
+        <p class="special-event-page__empty-message" role="status">
+          No hay eventos especiales disponibles
+        </p>
+      </li>
+    }
+  </ul>
+</main>

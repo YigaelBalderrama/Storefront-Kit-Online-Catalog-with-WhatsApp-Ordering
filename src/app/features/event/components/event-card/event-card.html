@@ -7,7 +7,7 @@
     />
   } @else {
     <div class="event-card__placeholder">
-      <mat-icon aria-hidden="true">image</mat-icon>
+      <mat-icon class="event-card__placeholder-icon" aria-hidden="true">image</mat-icon>
     </div>
   }
 
@@ -20,8 +20,12 @@
     />
     <h2 mat-card-title class="event-card__title">{{ event().id }}</h2>
     <mat-card-subtitle class="event-card__days">
-      <mat-icon aria-hidden="true">event</mat-icon>
-      <span>{{ event().days }}</span>
+      <mat-icon class="event-card__days-icon" aria-hidden="true">event</mat-icon>
+      @if (event().days) {
+        <span>{{ event().days }}</span>
+      } @else {
+        <span>{{ copy.noDate }}</span>
+      }
     </mat-card-subtitle>
   </mat-card-header>
 

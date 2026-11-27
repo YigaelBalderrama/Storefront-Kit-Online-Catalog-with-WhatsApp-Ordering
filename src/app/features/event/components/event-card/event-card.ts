@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { EVENT_COPY } from '../../event.copy';
 import { Event } from '../../models/event';
 
 @Component({
@@ -12,4 +13,5 @@ import { Event } from '../../models/event';
 })
 export class EventCard {
   readonly event = input.required<Event>();
+  protected readonly copy = EVENT_COPY;
 }

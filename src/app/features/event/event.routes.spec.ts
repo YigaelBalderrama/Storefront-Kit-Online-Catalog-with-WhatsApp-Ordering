@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { AuthService } from '../../core/auth/auth.service';
 import { routes } from '../../app.routes';
+import { EventService } from './services/event';
 
 describe('Event routes', () => {
   beforeEach(() => {
@@ -21,11 +22,13 @@ describe('Event routes', () => {
     expect(harness.routeNativeElement?.tagName.toLowerCase()).toBe('app-event-page');
   });
 
-  it('loads the blank special event page at /eventos/especial', async () => {
+  it('loads the special event page with its event cards at /eventos/especial', async () => {
     const harness = await RouterTestingHarness.create('/eventos/especial');
     await harness.fixture.whenStable();
 
     expect(harness.routeNativeElement?.tagName.toLowerCase()).toBe('app-special-event-page');
-    expect(harness.routeNativeElement?.textContent?.trim()).toBe('');
+    expect(harness.routeNativeElement?.querySelectorAll('app-event-card')).toHaveLength(
+      TestBed.inject(EventService).specialCount(),
+    );
   });
 });

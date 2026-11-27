@@ -36,7 +36,7 @@
   background: var(--mat-sys-surface-container, var(--background));
 }
 
-.event-card__placeholder mat-icon {
+.event-card__placeholder-icon {
   inline-size: 2rem;
   block-size: 2rem;
   font-size: 2rem;
@@ -69,7 +69,7 @@
   font: var(--mat-sys-label-large, inherit);
 }
 
-.event-card__days mat-icon {
+.event-card__days-icon {
   flex: 0 0 auto;
 }
 

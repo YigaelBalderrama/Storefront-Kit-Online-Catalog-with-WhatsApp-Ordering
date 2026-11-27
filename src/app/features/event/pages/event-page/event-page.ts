@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
 import { EventCard } from '../../components/event-card/event-card';
-import { EVENTS } from '../../data/events';
 import { Event } from '../../models/event';
+import { EventService } from '../../services/event';
 
 @Component({
   selector: 'app-event-page',
@@ -11,5 +11,6 @@ import { Event } from '../../models/event';
   styleUrl: './event-page.scss',
 })
 export class EventPage {
-  protected readonly events: readonly Event[] = EVENTS;
+  private readonly eventService = inject(EventService);
+  protected readonly events: Signal<readonly Event[]> = this.eventService.events;
 }
