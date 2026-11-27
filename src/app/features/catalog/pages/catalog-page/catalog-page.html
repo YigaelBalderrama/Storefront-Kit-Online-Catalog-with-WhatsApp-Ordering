@@ -1,89 +1,97 @@
-<a class="catalog__skip" [href]="skipLink()">{{ copy.skip }}</a>
-<main class="catalog">
-  <section class="catalog__intro" aria-labelledby="catalog-title">
-    <p class="catalog__eyebrow">{{ copy.collection }}</p>
-    <h1 id="catalog-title">{{ copy.title }}</h1>
-    <p class="catalog__description">{{ copy.introduction }}</p>
-  </section>
-  <div class="catalog__layout">
-    <section
-      class="catalog__results"
-      id="products"
-      tabindex="-1"
-      aria-labelledby="products-title"
-      [attr.aria-busy]="catalog.loading()"
-    >
-      <div class="catalog__heading">
-        <h2 id="products-title">{{ resultsTitle() }}</h2>
-        @if (!catalog.loading() && !catalog.error()) {
-          <span>{{ filtered().length }} {{ copy.products }}</span>
+<mat-sidenav-container class="catalog__shell" [autosize]="true">
+  <mat-sidenav
+    class="catalog__sidenav"
+    mode="side"
+    [opened]="true"
+    [disableClose]="true"
+    id="catalog-sections"
+    [attr.aria-label]="copy.sections"
+    [style.--catalog-sidebar-inline-size]="sidebarInlineSize()"
+  >
+    <app-sidebar
+      [collapsed]="sidebarCollapsed()"
+      [heading]="copy.sections"
+      [allSectionsLabel]="copy.allSections"
+      [sections]="categories()"
+      [selectedSections]="selectedCategories()"
+      [allSelected]="allSelected()"
+      [showSections]="!catalog.loading() && !catalog.error() && categories().length > 0"
+      (sectionChange)="changeCategory($event.section, $event.checked)"
+      (allSectionsChange)="selectAll($event)"
+      (collapsedChange)="changeSidebarCollapsed($event)"
+    />
+  </mat-sidenav>
+  <mat-sidenav-content class="catalog__content">
+    <a class="catalog__skip" [href]="skipLink()">{{ copy.skip }}</a>
+    <main class="catalog">
+      <section class="catalog__intro" aria-labelledby="catalog-title">
+        <p class="catalog__eyebrow">{{ copy.collection }}</p>
+        <h1 id="catalog-title">{{ copy.title }}</h1>
+        <p class="catalog__description">{{ copy.introduction }}</p>
+      </section>
+      <section
+        class="catalog__results"
+        id="products"
+        tabindex="-1"
+        aria-labelledby="products-title"
+        [attr.aria-busy]="catalog.loading()"
+      >
+        <header class="catalog__heading">
+          <h2 id="products-title">{{ resultsTitle() }}</h2>
+          @if (!catalog.loading() && !catalog.error()) {
+            <p class="catalog__count">{{ filtered().length }} {{ copy.products }}</p>
+          }
+        </header>
+        @if (!catalog.loading() && !catalog.error() && filtered().length > 0) {
+          <mat-form-field class="catalog__page-size" subscriptSizing="dynamic">
+            <mat-label>{{ copy.pageSize }}</mat-label>
+            <mat-select [value]="size()" (selectionChange)="changePage(1, $event.value)">
+              @for (option of sizes(); track option) {
+                <mat-option [value]="option">{{ option }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
         }
-      </div>
-      @if (!catalog.loading() && !catalog.error() && filtered().length > 0) {
-        <mat-form-field class="catalog__page-size" subscriptSizing="dynamic">
-          <mat-label>{{ copy.pageSize }}</mat-label>
-          <mat-select [value]="size()" (selectionChange)="changePage(1, $event.value)">
-            @for (option of sizes(); track option) {
-              <mat-option [value]="option">{{ option }}</mat-option>
+        <p role="status">{{ message() }}</p>
+        @if (catalog.loading()) {
+          <p class="catalog__state" role="status">{{ copy.loading }}</p>
+        } @else if (catalog.error()) {
+          <section class="catalog__state" role="alert" aria-labelledby="catalog-error-title">
+            <h3 id="catalog-error-title">{{ copy.error }}</h3>
+            <app-icon-button icon="retry" [label]="copy.retry" (activated)="catalog.retry()" />
+          </section>
+        } @else {
+          <ul class="catalog__grid" [attr.aria-label]="copy.products">
+            @for (product of products(); track product.id; let index = $index) {
+              <li>
+                <app-product-card
+                  [product]="product"
+                  [priority]="index < priorityImageCount"
+                  (addToCart)="add($event)"
+                />
+              </li>
+            } @empty {
+              <li>
+                <p class="catalog__state" role="status">
+                  {{
+                    categories().length > 0 && selectedCategories().length === 0
+                      ? copy.noSections
+                      : copy.empty
+                  }}
+                </p>
+              </li>
             }
-          </mat-select>
-        </mat-form-field>
-      }
-      <p role="status">{{ message() }}</p>
-      @if (catalog.loading()) {
-        <p class="catalog__state" role="status">{{ copy.loading }}</p>
-      } @else if (catalog.error()) {
-        <div class="catalog__state" role="alert">
-          <p>{{ copy.error }}</p>
-          <app-icon-button icon="retry" [label]="copy.retry" (activated)="catalog.retry()" />
-        </div>
-      } @else {
-        <div class="catalog__grid">
-          @for (product of products(); track product.id; let index = $index) {
-            <app-product-card
-              [product]="product"
-              [priority]="index < priorityImageCount"
-              (addToCart)="add($event)"
+          </ul>
+          @if (filtered().length > size()) {
+            <app-paginator
+              [total]="filtered().length"
+              [page]="page()"
+              [pageSize]="size()"
+              (pageChanged)="changePage($event)"
             />
-          } @empty {
-            <p class="catalog__state" role="status">
-              {{
-                categories().length > 0 && selectedCategories().length === 0
-                  ? copy.noSections
-                  : copy.empty
-              }}
-            </p>
           }
-        </div>
-        @if (filtered().length > size()) {
-          <app-paginator
-            [total]="filtered().length"
-            [page]="page()"
-            [pageSize]="size()"
-            (pageChanged)="changePage($event)"
-          />
         }
-      }
-    </section>
-    @if (!catalog.loading() && !catalog.error() && categories().length > 0) {
-      <aside class="catalog__sections" aria-labelledby="sections-title">
-        <h2 id="sections-title">{{ copy.sections }}</h2>
-        <div class="catalog__categories" role="group" aria-labelledby="sections-title">
-          <mat-checkbox
-            [checked]="allSelected()"
-            [indeterminate]="partiallySelected()"
-            (change)="selectAll($event.checked)"
-            >{{ copy.allSections }}</mat-checkbox
-          >
-          @for (section of categories(); track section) {
-            <mat-checkbox
-              [checked]="selectedCategories().includes(section)"
-              (change)="changeCategory(section, $event.checked)"
-              >{{ section }}</mat-checkbox
-            >
-          }
-        </div>
-      </aside>
-    }
-  </div>
-</main>
+      </section>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

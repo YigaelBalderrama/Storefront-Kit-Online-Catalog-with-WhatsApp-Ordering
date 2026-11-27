@@ -3,23 +3,39 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { IconButton } from '../../../../shared/components/icon-button/icon-button';
 import { Cart } from '../../../cart';
 import { Paginator } from '../../../../shared/components/paginator/paginator';
 import { CATALOG_CONFIG } from '../../catalog.config';
 import { ProductCard } from '../../components/product-card/product-card';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { Catalog } from '../../services/catalog';
 import { CATALOG_COPY } from '../../catalog.copy';
+
+const SIDEBAR_COLLAPSED_STORAGE_KEY = 'catalog-sidebar-collapsed';
+
+function readSidebarCollapsedState(): boolean {
+  try {
+    return (
+      typeof localStorage !== 'undefined' &&
+      localStorage.getItem(SIDEBAR_COLLAPSED_STORAGE_KEY) === 'true'
+    );
+  } catch {
+    return false;
+  }
+}
+
 @Component({
   selector: 'app-catalog-page',
   imports: [
     ProductCard,
     IconButton,
     Paginator,
+    SidebarComponent,
     MatFormFieldModule,
     MatSelectModule,
-    MatCheckboxModule,
+    MatSidenavModule,
   ],
   templateUrl: './catalog-page.html',
   styleUrl: './catalog-page.scss',
@@ -46,9 +62,6 @@ export class CatalogPage {
   protected readonly allSelected = computed(
     () =>
       this.categories().length > 0 && this.selectedCategories().length === this.categories().length,
-  );
-  protected readonly partiallySelected = computed(
-    () => this.selectedCategories().length > 0 && !this.allSelected(),
   );
   protected readonly resultsTitle = computed(() =>
     this.allSelected()
@@ -81,6 +94,12 @@ export class CatalogPage {
     this.filtered().slice((this.page() - 1) * this.size(), this.page() * this.size()),
   );
   protected readonly message = signal('');
+  protected readonly sidebarCollapsed = signal(readSidebarCollapsedState());
+  protected readonly sidebarInlineSize = computed(() =>
+    this.sidebarCollapsed()
+      ? 'var(--catalog-sidebar-collapsed-width)'
+      : 'var(--catalog-sidebar-width)',
+  );
   protected readonly skipLink = computed(() => {
     const queryParams = Object.fromEntries(
       this.query().keys.map((key) => [key, this.query().getAll(key)]),
@@ -112,6 +131,17 @@ export class CatalogPage {
 
   protected selectAll(checked: boolean): void {
     this.changeCategories(checked ? this.categories() : []);
+  }
+
+  protected changeSidebarCollapsed(collapsed: boolean): void {
+    this.sidebarCollapsed.set(collapsed);
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, String(collapsed));
+      }
+    } catch {
+      return;
+    }
   }
 
   private changeCategories(categories: readonly string[]): void {

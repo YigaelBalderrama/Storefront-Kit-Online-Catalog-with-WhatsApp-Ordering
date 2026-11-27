@@ -1,0 +1,66 @@
+<aside
+  class="sidebar"
+  [class.sidebar--collapsed]="collapsed()"
+  [attr.aria-labelledby]="collapsed() ? null : 'sidebar-heading'"
+  [attr.aria-label]="collapsed() ? heading() : null"
+>
+  <header class="sidebar__header" [class.sidebar__header--folded]="listEffectivelyFolded()">
+    <h2 class="sidebar__heading" id="sidebar-heading">
+      <button
+        type="button"
+        class="sidebar__heading-button"
+        [class.sidebar__heading-button--hidden]="collapsed()"
+        [attr.aria-expanded]="!listEffectivelyFolded()"
+        aria-controls="sidebar-sections"
+        (click)="toggleList()"
+      >
+        {{ heading() }}
+        <mat-icon aria-hidden="true">
+          {{ listEffectivelyFolded() ? 'expand_more' : 'expand_less' }}
+        </mat-icon>
+      </button>
+    </h2>
+    <div class="sidebar__actions">
+      <button
+        type="button"
+        mat-icon-button
+        [attr.aria-label]="collapsed() ? copy.expandSidebar : copy.collapseSidebar"
+        [attr.aria-expanded]="!collapsed()"
+        [matTooltip]="collapsed() ? copy.expandSidebarTooltip : copy.collapseSidebarTooltip"
+        (click)="toggleCollapsed()"
+      >
+        <mat-icon>{{ collapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+      </button>
+    </div>
+  </header>
+  <div
+    class="sidebar__list-region"
+    [class.sidebar__list-region--folded]="listEffectivelyFolded()"
+    [attr.aria-hidden]="listEffectivelyFolded()"
+    [inert]="listEffectivelyFolded()"
+  >
+    <ul class="sidebar__list" id="sidebar-sections" [attr.aria-label]="heading()">
+      @if (showSections()) {
+        <li class="sidebar__item">
+          <mat-checkbox
+            [checked]="allSelected()"
+            [indeterminate]="partiallySelected()"
+            [matTooltip]="collapsed() ? allSectionsLabel() : ''"
+            (change)="changeAllSections($event.checked)"
+            >{{ collapsed() ? '' : allSectionsLabel() }}</mat-checkbox
+          >
+        </li>
+        @for (section of sections(); track section) {
+          <li class="sidebar__item">
+            <mat-checkbox
+              [checked]="selectedSections().includes(section)"
+              [matTooltip]="collapsed() ? section : ''"
+              (change)="changeSection(section, $event.checked)"
+              >{{ collapsed() ? '' : section }}</mat-checkbox
+            >
+          </li>
+        }
+      }
+    </ul>
+  </div>
+</aside>
